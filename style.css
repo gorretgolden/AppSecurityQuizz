@@ -952,3 +952,122 @@ body {
         justify-content: center;
     }
 }
+
+/* Coderbyte-style blur effect */
+.blur-text {
+    filter: blur(4px);
+    transition: filter 0.1s ease;
+    user-select: none;
+}
+
+.blur-text:hover {
+    filter: blur(0);
+}
+
+.question-card:hover .blur-text {
+    filter: blur(0);
+}
+
+/* Proctor Bar */
+.proctor-bar {
+    position: fixed;
+    bottom: 0;
+    left: 0;
+    right: 0;
+    background: rgba(0, 0, 0, 0.9);
+    padding: 10px 30px;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    z-index: 100;
+    border-top: 2px solid #7c3aed;
+}
+
+.proctor-status {
+    color: #00b894;
+    font-size: 0.85rem;
+    display: flex;
+    align-items: center;
+    gap: 8px;
+}
+
+.proctor-status i {
+    animation: blink 2s infinite;
+}
+
+@keyframes blink {
+    0%, 100% { opacity: 1; }
+    50% { opacity: 0.3; }
+}
+
+.proctor-warnings {
+    color: #a0a0a0;
+    font-size: 0.85rem;
+}
+
+/* Suspicious Activity Report */
+.suspicious-activity {
+    background: rgba(255, 107, 107, 0.1);
+    border: 1px solid rgba(255, 107, 107, 0.3);
+    border-radius: 15px;
+    padding: 20px;
+    margin: 25px 0;
+    text-align: left;
+}
+
+.suspicious-activity h3 {
+    color: #ff6b6b;
+    margin-bottom: 15px;
+    text-align: center;
+}
+
+.activity-item {
+    padding: 8px 0;
+    border-bottom: 1px solid rgba(255, 255, 255, 0.1);
+    font-size: 0.9rem;
+    color: #e0e0e0;
+    display: flex;
+    justify-content: space-between;
+}
+
+.activity-item:last-child {
+    border-bottom: none;
+}
+
+.activity-type {
+    color: #ff6b6b;
+    font-weight: 600;
+}
+
+.activity-time {
+    color: #a0a0a0;
+}
+
+/* Session Recording Indicator */
+.session-recording {
+    position: fixed;
+    top: 10px;
+    right: 10px;
+    background: rgba(255, 0, 0, 0.8);
+    color: white;
+    padding: 5px 12px;
+    border-radius: 20px;
+    font-size: 0.75rem;
+    display: flex;
+    align-items: center;
+    gap: 6px;
+    z-index: 1000;
+    animation: pulse-recording 1.5s infinite;
+}
+
+@keyframes pulse-recording {
+    0%, 100% { opacity: 1; }
+    50% { opacity: 0.6; }
+}
+
+.recording-dot {
+    width: 8px;
+    height: 8px;
+    background: white;
+    border-radius: 50%;
+}
