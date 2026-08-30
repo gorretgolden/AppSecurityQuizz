@@ -73,6 +73,10 @@
 
     <!-- QUIZ PAGE -->
     <div id="quiz-page" class="page">
+        <div class="screenshot-warning" id="screenshot-warning">
+            <i class="fas fa-eye-slash"></i> Screenshots are monitored and will result in quiz termination
+        </div>
+        <div class="watermark" id="watermark-overlay"></div>
         <div class="quiz-header">
             <div class="quiz-info">
                 <span id="student-name"></span>
@@ -285,6 +289,23 @@
             <p id="warning-message">Tab switching is not allowed during the quiz.</p>
             <p class="warning-count">Warnings: <span id="warning-count">0</span>/3</p>
             <button class="btn-primary" onclick="closeModal()">I Understand</button>
+        </div>
+    </div>
+
+    <!-- CUSTOM ALERT MODAL -->
+    <div id="custom-alert-modal" class="modal" style="display:none;">
+        <div class="modal-content custom-alert">
+            <div class="custom-alert-icon" id="custom-alert-icon">
+                <i class="fas fa-exclamation-triangle"></i>
+            </div>
+            <h2 id="custom-alert-title">Alert</h2>
+            <p id="custom-alert-message"></p>
+            <div class="custom-alert-countdown" id="custom-alert-countdown" style="display:none;">
+                Auto-submitting in <span id="countdown-number">10</span>s...
+            </div>
+            <div class="custom-alert-buttons" id="custom-alert-buttons">
+                <button class="btn-primary" onclick="closeCustomAlert()">OK</button>
+            </div>
         </div>
     </div>
 

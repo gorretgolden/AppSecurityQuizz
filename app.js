@@ -6,12 +6,31 @@ let timerInterval;
 let timeRemaining = 3600;
 let startTime;
 let warningCount = 0;
+let quizSubmitted = false;
 let quizStartTime;
 let currentStudent = null;
 let questionStartTime = 0;
 let questionTimes = [];
 let timeUsedInterval;
 const ADMIN_PASSWORD = 'refactory2024';
+
+function shuffleArray(arr) {
+    for (let i = arr.length - 1; i > 0; i--) {
+        const j = Math.floor(Math.random() * (i + 1));
+        [arr[i], arr[j]] = [arr[j], arr[i]];
+    }
+    return arr;
+}
+
+function shuffleQuestions(qlist) {
+    shuffleArray(qlist);
+    qlist.forEach(q => {
+        const correctAnswer = q.options[q.correct];
+        shuffleArray(q.options);
+        q.correct = q.options.indexOf(correctAnswer);
+    });
+    return qlist;
+}
 
 function init() {
     loadFormDraft();
@@ -127,7 +146,7 @@ document.getElementById('registration-form').addEventListener('submit', function
     emailError.textContent = '';
     
     if (!fullname || !email || !track) {
-        alert('Please fill in all fields');
+        showCustomAlert('Missing Fields', 'Please fill in all fields.', 'warning', null);
         return;
     }
     
@@ -146,25 +165,23 @@ document.getElementById('registration-form').addEventListener('submit', function
     
     const existingResults = JSON.parse(localStorage.getItem('quizResults') || '[]');
     
-    const emailExists = existingResults.find(r => r.email.toLowerCase() === email);
-    if (emailExists) {
-        alert('This email has already been used to take the quiz. You cannot retake it.');
-        return;
-    }
-    
-    const nameExists = existingResults.find(r => 
-        r.fullname.toLowerCase() === fullname.toLowerCase() && r.track === track
+    const duplicate = existingResults.find(r => 
+        r.email.toLowerCase() === email && 
+        r.fullname.toLowerCase() === fullname.toLowerCase() && 
+        r.track === track
     );
-    if (nameExists) {
-        alert('A student with this name has already taken this quiz in this track. Each student can only take the quiz once.');
+    if (duplicate) {
+        showCustomAlert('Duplicate Detected', 'This student with this name and email has already taken this quiz in this track. Each student can only take the quiz once.', 'danger', null);
         return;
     }
     
     currentTrack = track;
-    questions = track === 'javascript' ? javascriptQuestions : pythonQuestions;
+    const rawQuestions = track === 'javascript' ? javascriptQuestions : pythonQuestions;
+    questions = shuffleQuestions(JSON.parse(JSON.stringify(rawQuestions)));
     userAnswers = new Array(questions.length).fill(null);
     currentQuestion = 0;
     warningCount = 0;
+    quizSubmitted = false;
     questionTimes = [];
     clearFormDraft();
     
@@ -174,6 +191,10 @@ document.getElementById('registration-form').addEventListener('submit', function
     const badge = document.getElementById('track-badge');
     badge.textContent = track === 'javascript' ? 'JavaScript Track' : 'Python Track';
     badge.className = track === 'javascript' ? 'track-label js' : 'track-label py';
+    
+    const watermarkEl = document.getElementById('watermark-overlay');
+    const watermarkText = (fullname + ' • ' + email + ' • ').repeat(200);
+    watermarkEl.textContent = watermarkText;
     
     showPage('quiz-page');
     
@@ -303,19 +324,29 @@ function prevQuestion() {
 }
 
 function submitQuiz() {
+    const unanswered = userAnswers.filter(a => a === null).length;
+    if (unanswered > 0) {
+        showCustomAlert(
+            'Unanswered Questions',
+            `You have ${unanswered} unanswered question(s). Are you sure you want to submit?`,
+            'warning',
+            [
+                { text: 'Cancel', class: 'btn-secondary', action: function() { startTimer(); } },
+                { text: 'Submit Anyway', class: 'btn-danger-alert', action: function() { doSubmitQuiz(); } }
+            ]
+        );
+        return;
+    }
+    doSubmitQuiz();
+}
+
+function doSubmitQuiz() {
+    quizSubmitted = true;
     clearInterval(timerInterval);
     clearInterval(timeUsedInterval);
     
     const lastQuestionTime = Math.floor((Date.now() - questionStartTime) / 1000);
     questionTimes[currentQuestion] = lastQuestionTime;
-    
-    const unanswered = userAnswers.filter(a => a === null).length;
-    if (unanswered > 0) {
-        if (!confirm(`You have ${unanswered} unanswered question(s). Are you sure you want to submit?`)) {
-            startTimer();
-            return;
-        }
-    }
     
     let correct = 0;
     questions.forEach((q, i) => {
@@ -497,6 +528,7 @@ function enableAntiCheat() {
 }
 
 function showWarning(message) {
+    if (quizSubmitted || warningCount >= 3) return;
     warningCount++;
     document.getElementById('warning-message').textContent = message;
     document.getElementById('warning-count').textContent = warningCount;
@@ -508,8 +540,7 @@ function showWarning(message) {
     if (warningCount >= 3) {
         clearInterval(timerInterval);
         clearInterval(timeUsedInterval);
-        alert('You have received too many warnings. Your quiz will be submitted automatically.');
-        submitQuiz();
+        showLastChanceAlert('You have received too many warnings. Your quiz will be submitted automatically.');
     }
 }
 
@@ -525,6 +556,101 @@ function logSuspiciousActivity(activity) {
 function closeModal() {
     document.getElementById('warning-modal').style.display = 'none';
     document.getElementById('admin-login-modal').style.display = 'none';
+}
+
+let customAlertCallback = null;
+let countdownInterval = null;
+
+function showCustomAlert(title, message, iconType, buttons, callback) {
+    const modal = document.getElementById('custom-alert-modal');
+    const iconEl = document.getElementById('custom-alert-icon');
+    const titleEl = document.getElementById('custom-alert-title');
+    const msgEl = document.getElementById('custom-alert-message');
+    const btnContainer = document.getElementById('custom-alert-buttons');
+    const countdownEl = document.getElementById('custom-alert-countdown');
+
+    iconEl.className = 'custom-alert-icon icon-' + iconType;
+    const iconMap = {
+        warning: 'fa-exclamation-triangle',
+        danger: 'fa-circle-xmark',
+        success: 'fa-circle-check',
+        info: 'fa-circle-info'
+    };
+    iconEl.innerHTML = '<i class="fas ' + (iconMap[iconType] || iconMap.warning) + '"></i>';
+
+    titleEl.textContent = title;
+    msgEl.textContent = message;
+    countdownEl.style.display = 'none';
+    customAlertCallback = callback || null;
+
+    btnContainer.innerHTML = '';
+    if (buttons && buttons.length > 0) {
+        buttons.forEach(function(btn) {
+            const btnEl = document.createElement('button');
+            btnEl.textContent = btn.text;
+            btnEl.className = btn.class || 'btn-primary';
+            btnEl.onclick = function() {
+                modal.style.display = 'none';
+                if (countdownInterval) clearInterval(countdownInterval);
+                if (btn.action) btn.action();
+                if (customAlertCallback) customAlertCallback();
+            };
+            btnContainer.appendChild(btnEl);
+        });
+    } else {
+        btnContainer.innerHTML = '<button class="btn-primary" onclick="closeCustomAlert()">OK</button>';
+    }
+
+    modal.style.display = 'flex';
+}
+
+function closeCustomAlert() {
+    document.getElementById('custom-alert-modal').style.display = 'none';
+    if (countdownInterval) clearInterval(countdownInterval);
+    if (customAlertCallback) customAlertCallback();
+    customAlertCallback = null;
+}
+
+function showLastChanceAlert(message) {
+    const modal = document.getElementById('custom-alert-modal');
+    const iconEl = document.getElementById('custom-alert-icon');
+    const titleEl = document.getElementById('custom-alert-title');
+    const msgEl = document.getElementById('custom-alert-message');
+    const btnContainer = document.getElementById('custom-alert-buttons');
+    const countdownEl = document.getElementById('custom-alert-countdown');
+    const countdownNum = document.getElementById('countdown-number');
+
+    iconEl.className = 'custom-alert-icon icon-danger';
+    iconEl.innerHTML = '<i class="fas fa-circle-xmark"></i>';
+    titleEl.textContent = 'Final Warning!';
+    msgEl.textContent = message;
+    countdownEl.style.display = 'block';
+    let seconds = 10;
+    countdownNum.textContent = seconds;
+
+    btnContainer.innerHTML = '';
+    const submitBtn = document.createElement('button');
+    submitBtn.textContent = 'Submit Now';
+    submitBtn.className = 'btn-danger-alert';
+    submitBtn.onclick = function() {
+        if (countdownInterval) clearInterval(countdownInterval);
+        modal.style.display = 'none';
+        submitQuiz();
+    };
+    btnContainer.appendChild(submitBtn);
+
+    modal.style.display = 'flex';
+
+    if (countdownInterval) clearInterval(countdownInterval);
+    countdownInterval = setInterval(function() {
+        seconds--;
+        countdownNum.textContent = seconds;
+        if (seconds <= 0) {
+            clearInterval(countdownInterval);
+            modal.style.display = 'none';
+            submitQuiz();
+        }
+    }, 1000);
 }
 
 function printResults() {
@@ -547,7 +673,7 @@ function copyShareLink() {
     const shareInput = document.getElementById('share-link');
     shareInput.select();
     document.execCommand('copy');
-    alert('Link copied to clipboard!');
+    showCustomAlert('Copied!', 'Link copied to clipboard!', 'success', null);
 }
 
 function closeShareModal() {
@@ -562,7 +688,7 @@ function showSharedResult(resultId) {
         currentStudent = { fullname: result.fullname, email: result.email, track: result.track };
         displayResults(result);
     } else {
-        alert('Result not found');
+        showCustomAlert('Not Found', 'Result not found.', 'warning', null);
         showPage('registration-page');
     }
 }
@@ -661,7 +787,7 @@ function exportToExcel() {
     const results = JSON.parse(localStorage.getItem('quizResults') || '[]');
     
     if (results.length === 0) {
-        alert('No results to export');
+        showCustomAlert('No Data', 'No results to export.', 'info', null);
         return;
     }
     
@@ -683,7 +809,7 @@ function printAllResults() {
     const results = JSON.parse(localStorage.getItem('quizResults') || '[]');
     
     if (results.length === 0) {
-        alert('No results to print');
+        showCustomAlert('No Data', 'No results to print.', 'info', null);
         return;
     }
     
@@ -744,13 +870,23 @@ function printAllResults() {
 }
 
 function clearAllResults() {
-    if (confirm('Are you sure you want to delete ALL results? This cannot be undone.')) {
-        if (confirm('This will permanently delete all student results. Continue?')) {
-            localStorage.removeItem('quizResults');
-            loadAdminResults();
-            alert('All results have been cleared');
-        }
-    }
+    showCustomAlert(
+        'Confirm Delete',
+        'Are you sure you want to delete ALL results? This cannot be undone.',
+        'danger',
+        [
+            { text: 'Cancel', class: 'btn-secondary', action: function() {} },
+            {
+                text: 'Delete All',
+                class: 'btn-danger-alert',
+                action: function() {
+                    localStorage.removeItem('quizResults');
+                    loadAdminResults();
+                    showCustomAlert('Done', 'All results have been cleared.', 'success', null);
+                }
+            }
+        ]
+    );
 }
 
 init();

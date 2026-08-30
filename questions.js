@@ -598,16 +598,6 @@ const javascriptQuestions = [
             "A backup procedure"
         ],
         correct: 1
-    },
-    {
-        question: "What is SQL Injection Boolean-based blind?",
-        options: [
-            "SQL injection that uses true/false conditions to extract data",
-            "SQL injection that is always visible",
-            "A type of stored injection",
-            "A backup technique"
-        ],
-        correct: 0
     }
 ];
 
@@ -1191,5 +1181,25 @@ const pythonQuestions = [
             "A query optimization"
         ],
         correct: 0
+    },
+    {
+        question: "Which Python library is commonly used for password hashing?",
+        options: [
+            "hashlib",
+            "bcrypt",
+            "Both hashlib and bcrypt",
+            "requests"
+        ],
+        correct: 2
+    },
+    {
+        question: "What is the purpose of CSRF tokens in Python web frameworks?",
+        options: [
+            "To encrypt database connections",
+            "To prevent Cross-Site Request Forgery by validating form submissions",
+            "To speed up page loading",
+            "To compress HTTP responses"
+        ],
+        correct: 1
     }
 ];
