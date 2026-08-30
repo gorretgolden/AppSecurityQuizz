@@ -5,13 +5,14 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>App Security Quiz - Refactory Academy</title>
     <link rel="stylesheet" href="style.css">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css">
 </head>
 <body>
     <!-- REGISTRATION PAGE -->
     <div id="registration-page" class="page active">
         <div class="container">
             <div class="header">
-                <h1>🔐 Application Security Quiz</h1>
+                <h1><i class="fas fa-shield-halved"></i> Application Security Quiz</h1>
                 <p class="subtitle">Refactory Academy - OAS Bay</p>
             </div>
             
@@ -21,18 +22,18 @@
                 
                 <form id="registration-form">
                     <div class="form-group">
-                        <label for="fullname">Full Name *</label>
+                        <label for="fullname"><i class="fas fa-user"></i> Full Name *</label>
                         <input type="text" id="fullname" name="fullname" required placeholder="Enter your full name">
                     </div>
                     
                     <div class="form-group">
-                        <label for="email">Email Address *</label>
+                        <label for="email"><i class="fas fa-envelope"></i> Email Address *</label>
                         <input type="email" id="email" name="email" required placeholder="yourname@refactory.academy">
                         <small class="error-text" id="email-error"></small>
                     </div>
                     
                     <div class="form-group">
-                        <label for="track">Select Track *</label>
+                        <label for="track"><i class="fas fa-code"></i> Select Track *</label>
                         <select id="track" name="track" required>
                             <option value="">-- Select your track --</option>
                             <option value="javascript">JavaScript Track</option>
@@ -41,7 +42,7 @@
                     </div>
                     
                     <div class="quiz-schedule">
-                        <h3>Quiz Schedule</h3>
+                        <h3><i class="fas fa-calendar-days"></i> Quiz Schedule</h3>
                         <div class="schedule-item">
                             <span class="track-label js">JavaScript</span>
                             <span class="time">Tomorrow at 6:00 PM</span>
@@ -53,18 +54,18 @@
                     </div>
                     
                     <div class="rules">
-                        <h3>📋 Quiz Info</h3>
+                        <h3><i class="fas fa-clipboard-list"></i> Quiz Info</h3>
                         <ul>
-                            <li>Duration: <strong>1 Hour</strong> (20 questions)</li>
-                            <li><strong>ONE TIME ONLY</strong> - You cannot retake the quiz</li>
+                            <li><i class="fas fa-clock"></i> Duration: <strong>1 Hour</strong> (60 questions)</li>
+                            <li><i class="fas fa-lock"></i> <strong>ONE TIME ONLY</strong> - You cannot retake the quiz</li>
                         </ul>
                     </div>
                     
-                    <button type="submit" class="btn-primary">Register & Start Quiz</button>
+                    <button type="submit" class="btn-primary"><i class="fas fa-play"></i> Register & Start Quiz</button>
                 </form>
             </div>
             
-            <a href="#" class="admin-link" onclick="showAdminLogin()">📚 Instructor Dashboard</a>
+            <a href="#" class="admin-link" onclick="showAdminLogin()"><i class="fas fa-chalkboard-teacher"></i> Instructor Dashboard</a>
         </div>
     </div>
 
@@ -79,7 +80,7 @@
             <div class="timer-section">
                 <div class="timer-main">
                     <div class="timer" id="timer">
-                        <span class="timer-icon">⏱️</span>
+                        <span class="timer-icon"><i class="fas fa-stopwatch"></i></span>
                         <div class="timer-details">
                             <span class="timer-label">Time Remaining</span>
                             <span id="time-display">60:00</span>
@@ -98,7 +99,7 @@
             
             <div class="progress">
                 <div class="progress-info">
-                    <span id="question-counter">Question 1 of 20</span>
+                    <span id="question-counter">Question 1 of 60</span>
                     <span id="answered-counter">0 answered</span>
                 </div>
                 <div class="progress-bar">
@@ -111,17 +112,22 @@
             <div class="question-card" id="question-card">
                 <div class="question-header">
                     <span class="question-number" id="question-number">Q1</span>
-                    <span class="question-of" id="question-of">of 20</span>
+                    <span class="question-of" id="question-of">of 60</span>
                 </div>
-                <h3 id="question-text"></h3>
+                <h3 id="question-text" class="blur-text"></h3>
                 <div class="options" id="options-container"></div>
             </div>
             
             <div class="quiz-navigation">
-                <button class="btn-secondary" id="prev-btn" onclick="prevQuestion()">← Previous</button>
-                <button class="btn-primary" id="next-btn" onclick="nextQuestion()">Next →</button>
-                <button class="btn-submit" id="submit-btn" onclick="submitQuiz()" style="display:none;">Submit Quiz</button>
+                <button class="btn-secondary" id="prev-btn" onclick="prevQuestion()"><i class="fas fa-arrow-left"></i> Previous</button>
+                <button class="btn-primary" id="next-btn" onclick="nextQuestion()">Next <i class="fas fa-arrow-right"></i></button>
+                <button class="btn-submit" id="submit-btn" onclick="submitQuiz()" style="display:none;"><i class="fas fa-paper-plane"></i> Submit Quiz</button>
             </div>
+        </div>
+        
+        <div class="proctor-bar" id="proctor-bar">
+            <span class="proctor-status"><i class="fas fa-eye"></i> Session Monitored</span>
+            <span class="proctor-warnings">Warnings: <span id="proctor-warning-count">0</span>/3</span>
         </div>
     </div>
 
@@ -129,12 +135,12 @@
     <div id="results-page" class="page">
         <div class="container">
             <div class="results-card">
-                <h1>Quiz Results</h1>
+                <h1><i class="fas fa-chart-bar"></i> Quiz Results</h1>
                 <div class="result-student" id="result-student"></div>
                 
                 <div class="score-circle" id="score-circle">
                     <span class="score-number" id="score-number">0</span>
-                    <span class="score-total" id="score-total">/20</span>
+                    <span class="score-total" id="score-total">/60</span>
                 </div>
                 
                 <div class="score-percentage" id="score-percentage">0%</div>
@@ -142,35 +148,40 @@
                 
                 <div class="result-details">
                     <div class="detail-item">
-                        <span class="label">Correct Answers:</span>
+                        <span class="label"><i class="fas fa-check-circle"></i> Correct Answers:</span>
                         <span class="value" id="correct-count">0</span>
                     </div>
                     <div class="detail-item">
-                        <span class="label">Wrong Answers:</span>
+                        <span class="label"><i class="fas fa-times-circle"></i> Wrong Answers:</span>
                         <span class="value" id="wrong-count">0</span>
                     </div>
                     <div class="detail-item">
-                        <span class="label">Time Taken:</span>
+                        <span class="label"><i class="fas fa-clock"></i> Time Taken:</span>
                         <span class="value" id="time-taken">0:00</span>
                     </div>
                 </div>
                 
                 <div class="ai-status" id="ai-status">
-                    <h3>🤖 AI Usage Status</h3>
+                    <h3><i class="fas fa-robot"></i> AI Usage Status</h3>
                     <p id="ai-status-text">AI assistance was not detected during this quiz.</p>
                 </div>
                 
+                <div class="suspicious-activity" id="suspicious-activity" style="display:none;">
+                    <h3><i class="fas fa-exclamation-triangle"></i> Suspicious Activity Report</h3>
+                    <div id="activity-log"></div>
+                </div>
+                
                 <div class="result-actions">
-                    <button class="btn-secondary" onclick="printResults()">🖨️ Print Results</button>
-                    <button class="btn-secondary" onclick="shareResults()">📤 Share Results</button>
+                    <button class="btn-secondary" onclick="printResults()"><i class="fas fa-print"></i> Print Results</button>
+                    <button class="btn-secondary" onclick="shareResults()"><i class="fas fa-share-nodes"></i> Share Results</button>
                 </div>
                 
                 <div class="review-section" id="review-section">
-                    <h2>Answer Review</h2>
+                    <h2><i class="fas fa-list-check"></i> Answer Review</h2>
                     <div id="review-answers"></div>
                 </div>
                 
-                <button class="btn-primary" onclick="location.reload()">Back to Home</button>
+                <button class="btn-primary" onclick="location.reload()"><i class="fas fa-home"></i> Back to Home</button>
             </div>
         </div>
     </div>
@@ -179,7 +190,7 @@
     <div id="admin-page" class="page">
         <div class="container">
             <div class="header">
-                <h1>📊 Instructor Dashboard</h1>
+                <h1><i class="fas fa-chart-line"></i> Instructor Dashboard</h1>
                 <p class="subtitle">View and export all student results</p>
             </div>
             
@@ -193,9 +204,9 @@
                     <input type="text" id="search-student" placeholder="Search by name..." oninput="filterResults()">
                 </div>
                 <div class="admin-actions">
-                    <button class="btn-export" onclick="exportToExcel()">📥 Export to Excel</button>
-                    <button class="btn-export" onclick="printAllResults()">🖨️ Print All</button>
-                    <button class="btn-export btn-danger" onclick="clearAllResults()">🗑️ Clear All</button>
+                    <button class="btn-export" onclick="exportToExcel()"><i class="fas fa-file-excel"></i> Export to Excel</button>
+                    <button class="btn-export" onclick="printAllResults()"><i class="fas fa-print"></i> Print All</button>
+                    <button class="btn-export btn-danger" onclick="clearAllResults()"><i class="fas fa-trash"></i> Clear All</button>
                 </div>
             </div>
             
@@ -234,14 +245,14 @@
                 </table>
             </div>
             
-            <button class="btn-secondary" onclick="showPage('registration-page')" style="margin-top:20px;">← Back to Quiz</button>
+            <button class="btn-secondary" onclick="showPage('registration-page')" style="margin-top:20px;"><i class="fas fa-arrow-left"></i> Back to Quiz</button>
         </div>
     </div>
 
     <!-- ADMIN LOGIN MODAL -->
     <div id="admin-login-modal" class="modal" style="display:none;">
         <div class="modal-content">
-            <h2>🔒 Instructor Login</h2>
+            <h2><i class="fas fa-lock"></i> Instructor Login</h2>
             <form onsubmit="adminLogin(event)">
                 <div class="form-group">
                     <label for="admin-password">Password</label>
@@ -257,10 +268,10 @@
     <!-- SHARE LINK MODAL -->
     <div id="share-modal" class="modal" style="display:none;">
         <div class="modal-content">
-            <h2>📤 Share Results</h2>
+            <h2><i class="fas fa-share-nodes"></i> Share Results</h2>
             <p>Copy the link below to share your results:</p>
             <input type="text" id="share-link" readonly class="share-input">
-            <button class="btn-primary" onclick="copyShareLink()">📋 Copy Link</button>
+            <button class="btn-primary" onclick="copyShareLink()"><i class="fas fa-copy"></i> Copy Link</button>
             <button class="btn-secondary" onclick="closeShareModal()" style="margin-top:10px;">Close</button>
         </div>
     </div>
@@ -268,7 +279,7 @@
     <!-- WARNING MODAL -->
     <div id="warning-modal" class="modal" style="display:none;">
         <div class="modal-content">
-            <h2>⚠️ Warning!</h2>
+            <h2><i class="fas fa-exclamation-triangle"></i> Warning!</h2>
             <p id="warning-message">Tab switching is not allowed during the quiz.</p>
             <p class="warning-count">Warnings: <span id="warning-count">0</span>/3</p>
             <button class="btn-primary" onclick="closeModal()">I Understand</button>
