@@ -117,6 +117,7 @@ function isQuizOpen(track) {
 
 document.getElementById('registration-form').addEventListener('submit', function(e) {
     e.preventDefault();
+    window.scrollTo(0, 0);
     
     const fullname = document.getElementById('fullname').value.trim();
     const email = document.getElementById('email').value.trim().toLowerCase();
