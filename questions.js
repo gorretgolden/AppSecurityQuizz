@@ -1,251 +1,221 @@
 const javascriptQuestions = [
     {
-        question: "What is SQL Injection?",
+        question: "What is SQL Injection in simple terms?",
         options: [
-            "A technique to optimize database queries",
-            "A malicious code insertion through user input to manipulate SQL queries",
-            "A method to encrypt database connections",
-            "A way to backup databases automatically"
+            "A way to make websites load faster",
+            "Tricking a database by typing special commands into input fields",
+            "A method to encrypt passwords",
+            "A way to create new database tables"
         ],
         correct: 1
     },
     {
-        question: "Which of the following is the BEST defense against SQL Injection?",
+        question: "How do you prevent SQL Injection?",
         options: [
-            "Using longer passwords",
-            "Input validation and parameterized queries",
-            "Encrypting the entire database",
-            "Using stored procedures only"
+            "Use long passwords",
+            "Use parameterized queries and validate all user input",
+            "Hide the database from users",
+            "Use a faster internet connection"
         ],
         correct: 1
     },
     {
-        question: "What is the purpose of input validation?",
+        question: "What is input validation?",
         options: [
-            "To make forms look better",
-            "To ensure user input meets expected format and length before processing",
-            "To encrypt user passwords",
-            "To speed up database queries"
+            "Making forms look beautiful",
+            "Checking that what a user types matches what you expect (like an email format)",
+            "Encrypting user data",
+            "Deleting invalid records"
         ],
         correct: 1
     },
     {
-        question: "In the Oyera Auto Service project, which field is vulnerable to SQL injection if not properly validated?",
+        question: "In a car service app, which field could be dangerous if not validated?",
         options: [
-            "The page title",
-            "Customer search input field",
-            "The CSS styling",
-            "The server operating system"
+            "The car color picker",
+            "The customer search box where you type a name",
+            "The logo image",
+            "The page background color"
         ],
         correct: 1
     },
     {
         question: "What does XSS stand for?",
         options: [
+            "Extra Xtra Security",
             "Cross-Site Scripting",
-            "Cross-Server Security",
-            "External Style Sheets",
-            "Extra Secure System"
+            "Cross-Server System",
+            "External Style Sheet"
         ],
-        correct: 0
+        correct: 1
     },
     {
-        question: "Which type of XSS is injected directly by the attacker to the server?",
+        question: "What does XSS do?",
         options: [
-            "Reflected XSS",
-            "Stored XSS",
-            "DOM-based XSS",
-            "All of the above"
+            "Makes websites faster",
+            "Injects malicious scripts into websites that run in other users' browsers",
+            "Encrypts user passwords",
+            "Creates database backups"
         ],
         correct: 1
     },
     {
         question: "What is the main difference between XSS and SQL Injection?",
         options: [
-            "They are the same thing",
-            "XSS targets users through browsers, SQL Injection targets the database",
-            "SQL Injection is more dangerous",
-            "XSS only affects mobile devices"
+            "They are exactly the same",
+            "XSS attacks the user's browser, SQL Injection attacks the database",
+            "SQL Injection is outdated",
+            "XSS only works on mobile phones"
         ],
         correct: 1
     },
     {
-        question: "Which HTTP header helps prevent XSS attacks?",
+        question: "Which security header helps prevent XSS?",
         options: [
             "Content-Security-Policy",
             "X-Powered-By",
-            "Server",
-            "Accept-Language"
+            "Accept-Language",
+            "Cache-Control"
         ],
         correct: 0
     },
     {
         question: "What is the OWASP Top 10?",
         options: [
-            "A list of the top 10 programming languages",
-            "A standard awareness document for web application security risks",
-            "A certification program for developers",
-            "A type of firewall configuration"
+            "Top 10 programming languages",
+            "A list of the most critical web application security risks",
+            "Top 10 websites",
+            "A certification exam"
         ],
         correct: 1
     },
     {
-        question: "In Reflected XSS, where is the malicious script stored?",
+        question: "In Reflected XSS, where is the malicious script found?",
         options: [
             "In the database",
-            "In the URL/server response",
-            "In cookies only",
-            "In the browser cache"
+            "In the URL or server response",
+            "In the user's password",
+            "In the CSS file"
         ],
         correct: 1
     },
     {
-        question: "What is the first step in securing an application?",
+        question: "What is the first thing you should do to secure an application?",
         options: [
-            "Installing antivirus software",
-            "Identifying assets to protect",
-            "Buying a firewall",
-            "Hiring a security team"
+            "Buy expensive software",
+            "Identify what data and assets need protection",
+            "Hire more developers",
+            "Change the website color"
         ],
         correct: 1
     },
     {
-        question: "Which input validation technique rejects invalid input?",
+        question: "What does bcrypt do?",
         options: [
-            "Accept known good (allow list)",
-            "Reject known bad (deny list)",
-            "Sanitization",
-            "Encoding"
+            "Styles the login form",
+            "Hashes passwords so they are stored securely",
+            "Validates email addresses",
+            "Creates database backups"
         ],
         correct: 1
     },
     {
-        question: "What is the purpose of bcrypt in the Oyera Auto Service project?",
+        question: "Which type of XSS is saved on the server and affects every visitor?",
         options: [
-            "To style the login form",
-            "To hash and encrypt passwords",
-            "To validate email addresses",
-            "To create database backups"
-        ],
-        correct: 1
-    },
-    {
-        question: "Which vulnerability allows an attacker to inject malicious HTML/JavaScript?",
-        options: [
-            "SQL Injection",
-            "Cross-Site Scripting (XSS)",
-            "Buffer Overflow",
-            "Denial of Service"
+            "Reflected XSS",
+            "Stored XSS",
+            "DOM XSS",
+            "Server XSS"
         ],
         correct: 1
     },
     {
         question: "What is session hijacking?",
         options: [
-            "Creating multiple user sessions",
-            "Stealing a user's session token to impersonate them",
-            "Logging out all users simultaneously",
-            "Encrypting session data"
+            "Creating multiple accounts",
+            "Stealing someone's login session to pretend to be them",
+            "Logging out all users",
+            "Changing your password"
         ],
         correct: 1
     },
     {
-        question: "Which of the following is a client-side attack?",
+        question: "Which of these is a client-side attack (happens in the browser)?",
         options: [
             "SQL Injection",
             "Cross-Site Scripting (XSS)",
-            "Server Misconfiguration",
-            "Database Backup Exposure"
+            "Server crash",
+            "Database deletion"
         ],
         correct: 1
     },
     {
-        question: "What should you do with user input before displaying it on a webpage?",
+        question: "What should you do with user input before showing it on a page?",
         options: [
-            "Use it as-is",
-            "Sanitize and encode it",
-            "Convert to uppercase",
-            "Store in localStorage"
+            "Show it exactly as typed",
+            "Clean and encode it to remove dangerous code",
+            "Convert everything to uppercase",
+            "Store it in a cookie"
         ],
         correct: 1
     },
     {
-        question: "In the Oyera Auto Service project, what does the login system protect?",
+        question: "What does a login system protect?",
         options: [
             "The company's social media",
-            "The admin dashboard for managing customers and services",
-            "The company's email server",
-            "The company's physical office"
+            "Access to restricted areas like admin dashboards",
+            "The internet connection",
+            "The computer hardware"
         ],
         correct: 1
     },
     {
-        question: "What is a common symptom of a successful XSS attack?",
+        question: "What might you see if a website has been XSS attacked?",
         options: [
-            "Database becomes faster",
-            "Unexpected pop-ups or scripts running in the victim's browser",
-            "Website loads faster",
-            "Colors change on the website"
+            "The website loads faster",
+            "Unexpected pop-ups or strange scripts running on the page",
+            "The website changes color",
+            "The database grows larger"
         ],
         correct: 1
     },
     {
-        question: "Which day of the App Security course covered SQL Injection?",
+        question: "What day of the App Security course covered SQL Injection?",
         options: [
-            "Day 1",
-            "Day 2",
-            "Day 3",
-            "Day 4"
+            "Day 1 - Introduction",
+            "Day 2 - SQL Injection & Input Validation",
+            "Day 3 - XSS",
+            "Day 4 - Final Project"
         ],
         correct: 1
     },
     {
-        question: "What is Cross-Site Request Forgery (CSRF)?",
+        question: "What is CSRF?",
         options: [
             "A type of SQL injection",
-            "An attack that forces users to execute unwanted actions on a web application",
-            "A method to encrypt cookies",
-            "A backup procedure for web servers"
-        ],
-        correct: 1
-    },
-    {
-        question: "Which of the following is used to hash passwords in JavaScript?",
-        options: [
-            "MD5",
-            "bcrypt",
-            "Base64",
-            "ROT13"
+            "An attack that tricks you into performing actions you didn't intend on a website",
+            "A password encryption method",
+            "A backup system"
         ],
         correct: 1
     },
     {
         question: "What is Content Security Policy (CSP)?",
         options: [
-            "A firewall configuration",
-            "A browser security layer that helps prevent XSS and injection attacks",
-            "A password policy",
-            "An encryption method"
+            "A password rule",
+            "A security setting that tells the browser which scripts are allowed to run",
+            "An encryption tool",
+            "A firewall type"
         ],
         correct: 1
     },
     {
         question: "What is the same-origin policy?",
         options: [
-            "A rule that allows all websites to share data",
-            "A security mechanism that restricts how documents or scripts can interact with resources from another origin",
+            "A rule that lets all websites share data freely",
+            "A security rule that prevents one website from accessing data from another website",
             "A password sharing policy",
-            "A backup protocol"
-        ],
-        correct: 1
-    },
-    {
-        question: "What is SQL Injection盲注 (Blind SQL Injection)?",
-        options: [
-            "SQL injection that is invisible to the user",
-            "A technique where the attacker asks the database true/false questions to extract data",
-            "SQL injection on a blind server",
-            "A type of stored SQL injection"
+            "A backup rule"
         ],
         correct: 1
     },
@@ -253,24 +223,24 @@ const javascriptQuestions = [
         question: "What is the purpose of HTTPS?",
         options: [
             "To make websites load faster",
-            "To encrypt communication between client and server",
-            "To block all malware",
-            "To increase storage capacity"
+            "To encrypt the connection between your browser and the website",
+            "To block viruses",
+            "To increase storage"
         ],
         correct: 1
     },
     {
         question: "What is a session token?",
         options: [
-            "A password for logging in",
-            "A unique identifier used to maintain user session state",
-            "A type of encryption key",
-            "A cookie for tracking analytics"
+            "A password",
+            "A temporary ID that keeps you logged in as you browse",
+            "A type of cookie for ads",
+            "An encryption key"
         ],
         correct: 1
     },
     {
-        question: "Which of the following is NOT a type of XSS?",
+        question: "Which of these is NOT a type of XSS?",
         options: [
             "Stored XSS",
             "Reflected XSS",
@@ -282,110 +252,30 @@ const javascriptQuestions = [
     {
         question: "What is input sanitization?",
         options: [
-            "Removing all input from forms",
-            "Cleaning user input to remove potentially harmful characters or code",
+            "Deleting all form inputs",
+            "Cleaning user input to remove harmful characters or code",
             "Encrypting input data",
-            "Validating input on the server only"
+            "Only validating on the server"
         ],
         correct: 1
     },
     {
-        question: "What is a security token?",
+        question: "What is CORS?",
         options: [
-            "A physical key",
-            "A device or software that generates one-time passwords for authentication",
-            "A type of cookie",
-            "A firewall rule"
-        ],
-        correct: 1
-    },
-    {
-        question: "What is CORS in web security?",
-        options: [
-            "Cross-Origin Resource Sharing - a mechanism that allows restricted resources to be requested from another domain",
-            "A type of encryption",
-            "A password hashing algorithm",
+            "A way for websites to safely request data from other domains",
+            "A type of password",
+            "An encryption method",
             "A backup system"
         ],
         correct: 0
     },
     {
-        question: "What is the purpose of CSRF tokens?",
+        question: "What do CSRF tokens do?",
         options: [
-            "To speed up page loads",
-            "To prevent cross-site request forgery attacks by validating form submissions",
-            "To encrypt passwords",
-            "To track user behavior"
-        ],
-        correct: 1
-    },
-    {
-        question: "What is SQL Injection UNION attack?",
-        options: [
-            "Using UNION to merge two databases",
-            "Using UNION SELECT to extract data from other tables",
-            "A backup technique",
-            "A way to optimize queries"
-        ],
-        correct: 1
-    },
-    {
-        question: "What is Cross-Site Scripting (XSS) payload?",
-        options: [
-            "The database schema",
-            "The malicious code injected into a vulnerable website",
-            "The server configuration",
-            "The encryption key"
-        ],
-        correct: 1
-    },
-    {
-        question: "What is the HttpOnly cookie flag?",
-        options: [
-            "A flag that makes cookies visible to JavaScript",
-            "A flag that prevents JavaScript from accessing the cookie",
-            "A flag that encrypts cookies",
-            "A flag that deletes cookies automatically"
-        ],
-        correct: 1
-    },
-    {
-        question: "What is SQL Injection time-based blind?",
-        options: [
-            "SQL injection that only works at night",
-            "A technique where the attacker measures response time to infer information",
-            "A time-limited SQL injection",
-            "A backup attack method"
-        ],
-        correct: 1
-    },
-    {
-        question: "What is the Secure cookie flag?",
-        options: [
-            "A flag that makes cookies more secure by requiring HTTPS",
-            "A flag that encrypts cookie content",
-            "A flag that prevents cookie theft",
-            "A flag that limits cookie lifetime"
-        ],
-        correct: 0
-    },
-    {
-        question: "What is DOM-based XSS?",
-        options: [
-            "XSS that only affects the server",
-            "XSS where the vulnerability exists in client-side code rather than server-side",
-            "XSS that affects the DOM tree permanently",
-            "A type of stored XSS"
-        ],
-        correct: 1
-    },
-    {
-        question: "What is SQL Injection error-based?",
-        options: [
-            "SQL injection that causes no errors",
-            "A technique that uses database error messages to extract information",
-            "An attack on error logs",
-            "A way to fix SQL errors"
+            "Speed up the website",
+            "Make sure form submissions come from the real website, not a fake one",
+            "Encrypt passwords",
+            "Track user clicks"
         ],
         correct: 1
     },
@@ -393,39 +283,99 @@ const javascriptQuestions = [
         question: "What is a security header?",
         options: [
             "A website banner",
-            "An HTTP response header that provides security instructions to the browser",
-            "A login page element",
+            "An HTTP instruction that tells the browser how to handle security",
+            "A login button",
             "A type of cookie"
         ],
         correct: 1
     },
     {
-        question: "What is the X-Content-Type-Options header?",
+        question: "What does the HttpOnly cookie flag do?",
         options: [
-            "A header that specifies content encoding",
-            "A header that prevents MIME-type sniffing",
-            "A header that sets character encoding",
-            "A header that controls caching"
+            "Makes cookies visible to JavaScript",
+            "Prevents JavaScript from reading the cookie (protects against XSS)",
+            "Deletes cookies automatically",
+            "Makes cookies last longer"
         ],
         correct: 1
     },
     {
-        question: "What is SQL Injection stacked queries?",
+        question: "What is DOM-based XSS?",
         options: [
-            "Using multiple SELECT statements",
-            "Executing multiple SQL statements separated by semicolons",
-            "A way to organize queries",
-            "A backup technique"
+            "XSS that affects only the server",
+            "XSS where the vulnerability is in the page's JavaScript code, not the server",
+            "XSS that destroys the website",
+            "A type of stored XSS"
         ],
         correct: 1
     },
     {
-        question: "What is the X-Frame-Options header?",
+        question: "What is the Secure cookie flag?",
         options: [
-            "A header that controls frame dimensions",
-            "A header that prevents clickjacking by controlling if a page can be embedded in frames",
-            "A header for iframe styling",
-            "A header for frame navigation"
+            "Makes cookies more secure by only sending them over HTTPS",
+            "Encrypts cookie content",
+            "Prevents cookie theft completely",
+            "Makes cookies expire faster"
+        ],
+        correct: 0
+    },
+    {
+        question: "What is the principle of least privilege?",
+        options: [
+            "Give everyone admin access",
+            "Only give people the minimum access they need to do their job",
+            "Use the cheapest security tools",
+            "Lock all doors"
+        ],
+        correct: 1
+    },
+    {
+        question: "What is a zero-day vulnerability?",
+        options: [
+            "A bug that has already been fixed",
+            "A security hole that the software maker doesn't know about yet",
+            "A type of firewall",
+            "A backup plan"
+        ],
+        correct: 1
+    },
+    {
+        question: "What is the goal of application security?",
+        options: [
+            "Making apps load faster",
+            "Protecting apps from attacks and keeping user data safe",
+            "Reducing server costs",
+            "Making apps look better"
+        ],
+        correct: 1
+    },
+    {
+        question: "What is threat modeling?",
+        options: [
+            "Designing user interfaces",
+            "Identifying and planning defenses against possible security threats",
+            "Creating encryption keys",
+            "Building firewalls"
+        ],
+        correct: 1
+    },
+    {
+        question: "What is penetration testing?",
+        options: [
+            "Testing internet speed",
+            "Simulating real attacks to find security weaknesses before hackers do",
+            "Testing how many users can log in",
+            "Checking server storage"
+        ],
+        correct: 1
+    },
+    {
+        question: "What is security through obscurity?",
+        options: [
+            "Strong security practice",
+            "Relying on keeping your system secret instead of using proper security measures",
+            "A type of encryption",
+            "A backup strategy"
         ],
         correct: 1
     },
@@ -433,149 +383,29 @@ const javascriptQuestions = [
         question: "What is a security audit?",
         options: [
             "A financial review",
-            "A systematic evaluation of an organization's security posture",
+            "A thorough check of all security settings and practices in an application",
             "A type of firewall",
-            "A password policy"
-        ],
-        correct: 1
-    },
-    {
-        question: "What is vulnerability scanning?",
-        options: [
-            "Scanning for viruses only",
-            "Automated process of identifying security vulnerabilities in systems and networks",
-            "Scanning for malware",
-            "A type of port scanning"
-        ],
-        correct: 1
-    },
-    {
-        question: "What is penetration testing?",
-        options: [
-            "Testing network speed",
-            "Simulating cyber attacks to identify vulnerabilities before malicious hackers",
-            "Testing physical security",
-            "A type of code review"
-        ],
-        correct: 1
-    },
-    {
-        question: "What is the OWASP ASVS?",
-        options: [
-            "Application Security Verification Standard - a framework for testing web application security",
-            "A type of firewall",
-            "A password policy",
-            "A backup system"
-        ],
-        correct: 0
-    },
-    {
-        question: "What is SQL Injection out-of-band?",
-        options: [
-            "SQL injection using DNS or HTTP requests to extract data",
-            "SQL injection that occurs outside normal hours",
-            "A type of stored injection",
-            "A backup attack method"
-        ],
-        correct: 0
-    },
-    {
-        question: "What is a securitymisconfiguration?",
-        options: [
-            "Correct server setup",
-            "Improper configuration of security settings that leaves vulnerabilities",
-            "A type of firewall",
-            "A backup procedure"
-        ],
-        correct: 1
-    },
-    {
-        question: "What is the principle of least privilege?",
-        options: [
-            "Giving users maximum permissions",
-            "Granting users only the minimum permissions needed to perform their tasks",
-            "A type of encryption",
-            "A password policy"
-        ],
-        correct: 1
-    },
-    {
-        question: "What is security through obscurity?",
-        options: [
-            "A strong security practice",
-            "Relying on secrecy of implementation rather than proper security measures",
-            "A type of encryption",
-            "A backup system"
-        ],
-        correct: 1
-    },
-    {
-        question: "What is a zero-day vulnerability?",
-        options: [
-            "A vulnerability that has been fixed",
-            "A vulnerability unknown to the vendor with no patch available",
-            "A type of firewall",
-            "A backup procedure"
-        ],
-        correct: 1
-    },
-    {
-        question: "What is the goal of application security?",
-        options: [
-            "Making applications faster",
-            "Protecting applications from threats and vulnerabilities throughout their lifecycle",
-            "Increasing storage capacity",
-            "Reducing development costs"
-        ],
-        correct: 1
-    },
-    {
-        question: "What is a security baseline?",
-        options: [
-            "The lowest security settings",
-            "A minimum set of security configurations that must be maintained",
-            "A type of firewall",
-            "A backup system"
-        ],
-        correct: 1
-    },
-    {
-        question: "What is threat modeling?",
-        options: [
-            "Creating user interfaces",
-            "Identifying, quantifying, and addressing security threats to an application",
-            "A type of encryption",
-            "A backup procedure"
-        ],
-        correct: 1
-    },
-    {
-        question: "What is SQL Injection Second-Order?",
-        options: [
-            "SQL injection that occurs immediately",
-            "SQL injection where the malicious input is stored and executed later",
-            "A type of blind injection",
-            "A backup attack"
+            "A password policy document"
         ],
         correct: 1
     },
     {
         question: "What is the SameSite cookie attribute?",
         options: [
-            "An attribute that limits cookie access to same-site requests",
+            "An attribute that only allows cookies to be sent from the same website",
+            "An attribute that shares cookies across sites",
             "An attribute that encrypts cookies",
-            "An attribute that deletes cookies",
-            "An attribute that shares cookies"
+            "An attribute that deletes old cookies"
         ],
         correct: 0
     },
     {
-        question: "What is security monitoring?",
+        question: "What is a security monitoring system?",
         options: [
-            "Watching users directly",
-            "Continuous monitoring of systems and networks for security events",
-            "A type of firewall",
-            "A backup procedure"
+            "A camera watching users",
+            "Continuous checking of systems for suspicious activity and threats",
+            "A firewall type",
+            "A backup system"
         ],
         correct: 1
     },
@@ -583,604 +413,624 @@ const javascriptQuestions = [
         question: "What is an incident response plan?",
         options: [
             "A marketing strategy",
-            "A documented process for handling security incidents",
+            "A step-by-step guide for what to do when a security breach happens",
             "A type of firewall",
+            "A backup plan for data"
+        ],
+        correct: 1
+    },
+    {
+        question: "What is the CIA triad?",
+        options: [
+            "Central Intelligence Agency",
+            "Confidentiality, Integrity, Availability - the three core principles of security",
+            "A type of encryption",
+            "A firewall configuration"
+        ],
+        correct: 1
+    },
+    {
+        question: "What is Cross-Site Scripting payload?",
+        options: [
+            "The database structure",
+            "The actual malicious code that gets injected into a vulnerable website",
+            "The server configuration",
+            "The encryption key"
+        ],
+        correct: 1
+    },
+    {
+        question: "Which cookie flag makes sure cookies are only sent over secure HTTPS connections?",
+        options: [
+            "HttpOnly",
+            "Secure",
+            "SameSite",
+            "Domain"
+        ],
+        correct: 1
+    },
+    {
+        question: "What is SQL Injection error-based?",
+        options: [
+            "SQL injection that causes no errors",
+            "Using database error messages to learn about the database structure",
+            "Fixing SQL errors",
+            "A type of backup"
+        ],
+        correct: 1
+    },
+    {
+        question: "What is the X-Content-Type-Options header?",
+        options: [
+            "Sets the font size",
+            "Prevents the browser from guessing what type of file it is (prevents attacks)",
+            "Controls page caching",
+            "Sets the language"
+        ],
+        correct: 1
+    },
+    {
+        question: "What is the X-Frame-Options header?",
+        options: [
+            "Controls page layout",
+            "Prevents your page from being embedded in malicious iframes (clickjacking protection)",
+            "Sets frame colors",
+            "Controls navigation"
+        ],
+        correct: 1
+    },
+    {
+        question: "What is vulnerability scanning?",
+        options: [
+            "Scanning for computer viruses",
+            "Automatically checking systems for known security weaknesses",
+            "Scanning for malware",
+            "Checking network speed"
+        ],
+        correct: 1
+    },
+    {
+        question: "What is a phishing attack?",
+        options: [
+            "A way to catch fish online",
+            "A fake email or website that tricks you into revealing personal information",
+            "A type of fishing game",
+            "A password creation method"
+        ],
+        correct: 1
+    },
+    {
+        question: "What is two-factor authentication (2FA)?",
+        options: [
+            "Using two passwords",
+            "Adding an extra layer of security by requiring a second form of verification",
+            "Logging in from two devices",
+            "Having two user accounts"
+        ],
+        correct: 1
+    },
+    {
+        question: "What is a strong password?",
+        options: [
+            "Your name followed by numbers",
+            "A mix of uppercase, lowercase, numbers, and special characters",
+            "A short word that is easy to remember",
+            "Your birthday"
+        ],
+        correct: 1
+    },
+    {
+        question: "What is a SQL Injection login bypass?",
+        options: [
+            "Using a strong password to log in",
+            "Entering special characters in the login form to gain unauthorized access",
+            "Forgetting your password",
+            "Being locked out after too many attempts"
+        ],
+        correct: 1
+    },
+    {
+        question: "What does it mean to encrypt data?",
+        options: [
+            "Deleting the data",
+            "Converting data into a coded format that can only be read with a key",
+            "Copying the data to another location",
+            "Compressing the data to make it smaller"
+        ],
+        correct: 1
+    },
+    {
+        question: "What is a security patch?",
+        options: [
+            "A type of bandage for computers",
+            "An update that fixes security holes in software",
+            "A new feature for the application",
+            "A backup copy of the data"
+        ],
+        correct: 1
+    },
+    {
+        question: "Why should you never store passwords in plain text?",
+        options: [
+            "It takes up too much space",
+            "Anyone who accesses the database can see all the passwords",
+            "It makes the website slower",
+            "It is not allowed by law"
+        ],
+        correct: 1
+    },
+    {
+        question: "What is a web application firewall (WAF)?",
+        options: [
+            "A wall that protects the building",
+            "A security layer that filters and monitors traffic to a web application",
+            "A type of antivirus",
             "A backup system"
         ],
         correct: 1
     },
     {
-        question: "What is the CIA triad in security?",
+        question: "What is cross-site scripting (XSS) reflected?",
         options: [
-            "Central Intelligence Agency",
-            "Confidentiality, Integrity, Availability - core security principles",
-            "A type of encryption",
-            "A backup procedure"
+            "XSS that is stored permanently",
+            "XSS where the malicious script bounces off the server back to the user",
+            "XSS that only works on desktop",
+            "XSS that deletes the website"
         ],
         correct: 1
+    },
+    {
+        question: "What is the most common way attackers find vulnerabilities?",
+        options: [
+            "Reading the user manual",
+            "Scanning the website for known weaknesses and misconfigurations",
+            "Asking the developer nicely",
+            "Looking at the website's color scheme"
+        ],
+        correct: 1
+    },
+    {
+        question: "What is a database backup and why is it important for security?",
+        options: [
+            "A copy of data stored elsewhere so you can restore it if the original is lost or attacked",
+            "A way to make the database faster",
+            "A type of encryption",
+            "A password manager"
+        ],
+        correct: 0
     }
 ];
 
 const pythonQuestions = [
     {
-        question: "What is SQL Injection?",
+        question: "What is SQL Injection in simple terms?",
         options: [
-            "A technique to optimize database queries",
-            "A malicious code insertion through user input to manipulate SQL queries",
-            "A method to encrypt database connections",
-            "A way to backup databases automatically"
+            "A way to make websites load faster",
+            "Tricking a database by typing special commands into input fields",
+            "A method to encrypt passwords",
+            "A way to create new database tables"
         ],
         correct: 1
     },
     {
-        question: "Which Python library helps prevent SQL Injection?",
+        question: "How do you prevent SQL Injection in Python?",
         options: [
-            "requests",
-            "sqlite3 with parameterized queries",
-            "beautifulsoup",
-            "flask"
+            "Use long passwords",
+            "Use parameterized queries instead of string concatenation",
+            "Hide the database file",
+            "Use a faster computer"
         ],
         correct: 1
     },
     {
-        question: "What is the purpose of input validation in Python?",
+        question: "What is input validation?",
         options: [
-            "To make scripts run faster",
-            "To ensure user input meets expected format and length before processing",
-            "To encrypt user passwords",
-            "To create GUI applications"
+            "Making forms look beautiful",
+            "Checking that what a user types matches what you expect",
+            "Encrypting user data",
+            "Deleting invalid records"
         ],
         correct: 1
     },
     {
-        question: "In the Oyera Auto Service project, which field is vulnerable to SQL injection if not properly validated?",
+        question: "In a car service app, which field could be dangerous if not validated?",
         options: [
-            "The page title",
-            "Customer search input field",
-            "The CSS styling",
-            "The server operating system"
-        ],
-        correct: 1
-    },
-    {
-        question: "What is the correct way to execute a parameterized query in Python?",
-        options: [
-            "cursor.execute('SELECT * FROM users WHERE id=' + user_id)",
-            "cursor.execute('SELECT * FROM users WHERE id=?', (user_id,))",
-            "cursor.execute(f'SELECT * FROM users WHERE id={user_id}')",
-            "cursor.execute('SELECT * FROM users WHERE id=%s' % user_id)"
+            "The car color picker",
+            "The customer search box where you type a name",
+            "The logo image",
+            "The page background color"
         ],
         correct: 1
     },
     {
         question: "What does XSS stand for?",
         options: [
+            "Extra Xtra Security",
             "Cross-Site Scripting",
-            "Cross-Server Security",
-            "External Style Sheets",
-            "Extra Secure System"
+            "Cross-Server System",
+            "External Style Sheet"
         ],
-        correct: 0
+        correct: 1
     },
     {
-        question: "Which type of XSS is injected directly by the attacker to the server?",
+        question: "What does XSS do?",
         options: [
-            "Reflected XSS",
-            "Stored XSS",
-            "DOM-based XSS",
-            "All of the above"
+            "Makes websites faster",
+            "Injects malicious scripts into websites that run in other users' browsers",
+            "Encrypts user passwords",
+            "Creates database backups"
         ],
         correct: 1
     },
     {
         question: "What is the main difference between XSS and SQL Injection?",
         options: [
-            "They are the same thing",
-            "XSS targets users through browsers, SQL Injection targets the database",
-            "SQL Injection is more dangerous",
-            "XSS only affects mobile devices"
+            "They are exactly the same",
+            "XSS attacks the user's browser, SQL Injection attacks the database",
+            "SQL Injection is outdated",
+            "XSS only works on mobile phones"
         ],
         correct: 1
     },
     {
-        question: "In Python, how do you escape HTML special characters?",
+        question: "Which library helps hash passwords securely in Python?",
         options: [
-            "Using escape() from markupsafe or html module",
-            "Using str.upper()",
-            "Using json.dumps()",
-            "Using base64 encode"
+            "requests",
+            "bcrypt",
+            "flask",
+            "numpy"
         ],
-        correct: 0
+        correct: 1
     },
     {
         question: "What is the OWASP Top 10?",
         options: [
-            "A list of the top 10 programming languages",
-            "A standard awareness document for web application security risks",
-            "A certification program for developers",
-            "A type of firewall configuration"
+            "Top 10 programming languages",
+            "A list of the most critical web application security risks",
+            "Top 10 websites",
+            "A certification exam"
         ],
         correct: 1
     },
     {
-        question: "In Reflected XSS, where is the malicious script stored?",
+        question: "In Reflected XSS, where is the malicious script found?",
         options: [
             "In the database",
-            "In the URL/server response",
-            "In cookies only",
-            "In the browser cache"
+            "In the URL or server response",
+            "In the user's password",
+            "In the CSS file"
         ],
         correct: 1
     },
     {
-        question: "What is the first step in securing a Python application?",
+        question: "What is the first thing you should do to secure an application?",
         options: [
-            "Installing antivirus software",
-            "Identifying assets to protect",
-            "Buying a firewall",
-            "Hiring a security team"
+            "Buy expensive software",
+            "Identify what data and assets need protection",
+            "Hire more developers",
+            "Change the website color"
         ],
         correct: 1
     },
     {
-        question: "Which input validation technique rejects invalid input?",
+        question: "What does bcrypt do in Python?",
         options: [
-            "Accept known good (allow list)",
-            "Reject known bad (deny list)",
-            "Sanitization",
-            "Encoding"
+            "Styles the login form",
+            "Hashes passwords so they are stored securely",
+            "Validates email addresses",
+            "Creates database backups"
         ],
         correct: 1
     },
     {
-        question: "What is the purpose of bcrypt in the Oyera Auto Service project?",
+        question: "Which type of XSS is saved on the server and affects every visitor?",
         options: [
-            "To style the login form",
-            "To hash and encrypt passwords",
-            "To validate email addresses",
-            "To create database backups"
-        ],
-        correct: 1
-    },
-    {
-        question: "Which vulnerability allows an attacker to inject malicious HTML/JavaScript?",
-        options: [
-            "SQL Injection",
-            "Cross-Site Scripting (XSS)",
-            "Buffer Overflow",
-            "Denial of Service"
+            "Reflected XSS",
+            "Stored XSS",
+            "DOM XSS",
+            "Server XSS"
         ],
         correct: 1
     },
     {
         question: "What is session hijacking?",
         options: [
-            "Creating multiple user sessions",
-            "Stealing a user's session token to impersonate them",
-            "Logging out all users simultaneously",
-            "Encrypting session data"
+            "Creating multiple accounts",
+            "Stealing someone's login session to pretend to be them",
+            "Logging out all users",
+            "Changing your password"
         ],
         correct: 1
     },
     {
-        question: "Which of the following is a client-side attack?",
+        question: "Which of these is a client-side attack (happens in the browser)?",
         options: [
             "SQL Injection",
             "Cross-Site Scripting (XSS)",
-            "Server Misconfiguration",
-            "Database Backup Exposure"
+            "Server crash",
+            "Database deletion"
         ],
         correct: 1
     },
     {
-        question: "What should you do with user input before displaying it on a webpage?",
+        question: "What should you do with user input before showing it on a page?",
         options: [
-            "Use it as-is",
-            "Sanitize and encode it",
-            "Convert to uppercase",
-            "Store in localStorage"
+            "Show it exactly as typed",
+            "Clean and encode it to remove dangerous code",
+            "Convert everything to uppercase",
+            "Store it in a cookie"
         ],
         correct: 1
     },
     {
-        question: "In the Oyera Auto Service project, what does the login system protect?",
+        question: "What does a login system protect?",
         options: [
             "The company's social media",
-            "The admin dashboard for managing customers and services",
-            "The company's email server",
-            "The company's physical office"
+            "Access to restricted areas like admin dashboards",
+            "The internet connection",
+            "The computer hardware"
         ],
         correct: 1
     },
     {
-        question: "Which day of the App Security course covered XSS?",
+        question: "What might you see if a website has been XSS attacked?",
         options: [
-            "Day 1",
-            "Day 2",
-            "Day 3",
-            "Day 4"
-        ],
-        correct: 2
-    },
-    {
-        question: "How do you prevent SQL Injection in Python Flask?",
-        options: [
-            "Using string concatenation",
-            "Using ORM like SQLAlchemy or parameterized queries",
-            "Using eval()",
-            "Using exec()"
+            "The website loads faster",
+            "Unexpected pop-ups or strange scripts running on the page",
+            "The website changes color",
+            "The database grows larger"
         ],
         correct: 1
     },
     {
-        question: "What is the markupsafe library used for in Python?",
+        question: "What is CSRF?",
         options: [
-            "Marking files as safe",
-            "Providing safe HTML strings to prevent XSS attacks",
-            "Validating email addresses",
-            "Encrypting passwords"
-        ],
-        correct: 1
-    },
-    {
-        question: "What is CSRF in Python web applications?",
-        options: [
-            "Cross-Site Request Forgery - an attack that forces users to execute unwanted actions",
             "A type of SQL injection",
-            "A password hashing method",
-            "A caching mechanism"
+            "An attack that tricks you into performing actions you didn't intend on a website",
+            "A password encryption method",
+            "A backup system"
+        ],
+        correct: 1
+    },
+    {
+        question: "What is Content Security Policy (CSP)?",
+        options: [
+            "A password rule",
+            "A security setting that tells the browser which scripts are allowed to run",
+            "An encryption tool",
+            "A firewall type"
+        ],
+        correct: 1
+    },
+    {
+        question: "What is the same-origin policy?",
+        options: [
+            "A rule that lets all websites share data freely",
+            "A security rule that prevents one website from accessing data from another website",
+            "A password sharing policy",
+            "A backup rule"
+        ],
+        correct: 1
+    },
+    {
+        question: "What is the purpose of HTTPS?",
+        options: [
+            "To make websites load faster",
+            "To encrypt the connection between your browser and the website",
+            "To block viruses",
+            "To increase storage"
+        ],
+        correct: 1
+    },
+    {
+        question: "What is a session token?",
+        options: [
+            "A password",
+            "A temporary ID that keeps you logged in as you browse",
+            "A type of cookie for ads",
+            "An encryption key"
+        ],
+        correct: 1
+    },
+    {
+        question: "What is CSRF and how do you prevent it?",
+        options: [
+            "A type of XSS - prevent with CSP headers",
+            "A fake form submission attack - prevent with CSRF tokens",
+            "A password attack - prevent with hashing",
+            "A database attack - prevent with encryption"
+        ],
+        correct: 1
+    },
+    {
+        question: "What is input sanitization?",
+        options: [
+            "Deleting all form inputs",
+            "Cleaning user input to remove harmful characters or code",
+            "Encrypting input data",
+            "Only validating on the server"
+        ],
+        correct: 1
+    },
+    {
+        question: "What is CORS?",
+        options: [
+            "A way for websites to safely request data from other domains",
+            "A type of password",
+            "An encryption method",
+            "A backup system"
         ],
         correct: 0
     },
     {
-        question: "What is the purpose of Flask-WTF?",
+        question: "What do CSRF tokens do?",
         options: [
-            "Web template framework for forms with CSRF protection",
-            "A database library",
-            "An encryption library",
-            "A logging framework"
+            "Speed up the website",
+            "Make sure form submissions come from the real website, not a fake one",
+            "Encrypt passwords",
+            "Track user clicks"
+        ],
+        correct: 1
+    },
+    {
+        question: "What is a security header?",
+        options: [
+            "A website banner",
+            "An HTTP instruction that tells the browser how to handle security",
+            "A login button",
+            "A type of cookie"
+        ],
+        correct: 1
+    },
+    {
+        question: "What does the HttpOnly cookie flag do?",
+        options: [
+            "Makes cookies visible to JavaScript",
+            "Prevents JavaScript from reading the cookie (protects against XSS)",
+            "Deletes cookies automatically",
+            "Makes cookies last longer"
+        ],
+        correct: 1
+    },
+    {
+        question: "What is the Secure cookie flag?",
+        options: [
+            "Makes cookies more secure by only sending them over HTTPS",
+            "Encrypts cookie content",
+            "Prevents cookie theft completely",
+            "Makes cookies expire faster"
         ],
         correct: 0
     },
     {
-        question: "What is the principle of least privilege in Python?",
+        question: "What is the principle of least privilege?",
         options: [
-            "Giving maximum permissions to all users",
-            "Granting only the minimum permissions needed for a task",
+            "Give everyone admin access",
+            "Only give people the minimum access they need to do their job",
+            "Use the cheapest security tools",
+            "Lock all doors"
+        ],
+        correct: 1
+    },
+    {
+        question: "What is a zero-day vulnerability?",
+        options: [
+            "A bug that has already been fixed",
+            "A security hole that the software maker doesn't know about yet",
+            "A type of firewall",
+            "A backup plan"
+        ],
+        correct: 1
+    },
+    {
+        question: "What is the goal of application security?",
+        options: [
+            "Making apps load faster",
+            "Protecting apps from attacks and keeping user data safe",
+            "Reducing server costs",
+            "Making apps look better"
+        ],
+        correct: 1
+    },
+    {
+        question: "What is threat modeling?",
+        options: [
+            "Designing user interfaces",
+            "Identifying and planning defenses against possible security threats",
+            "Creating encryption keys",
+            "Building firewalls"
+        ],
+        correct: 1
+    },
+    {
+        question: "What is penetration testing?",
+        options: [
+            "Testing internet speed",
+            "Simulating real attacks to find security weaknesses before hackers do",
+            "Testing how many users can log in",
+            "Checking server storage"
+        ],
+        correct: 1
+    },
+    {
+        question: "What is security through obscurity?",
+        options: [
+            "Strong security practice",
+            "Relying on keeping your system secret instead of using proper security measures",
             "A type of encryption",
             "A backup strategy"
         ],
         correct: 1
     },
     {
-        question: "How do you securely store passwords in Python?",
+        question: "What is a security audit?",
         options: [
-            "Using MD5",
-            "Using bcrypt or argon2 for hashing",
-            "Storing in plain text",
-            "Using base64 encoding"
+            "A financial review",
+            "A thorough check of all security settings and practices in an application",
+            "A type of firewall",
+            "A password policy document"
         ],
         correct: 1
     },
     {
-        question: "What is the os.urandom() function used for?",
+        question: "What is the SameSite cookie attribute?",
         options: [
-            "Generating random numbers for games",
-            "Generating cryptographically secure random bytes",
-            "Creating random filenames",
-            "Generating test data"
+            "An attribute that only allows cookies to be sent from the same website",
+            "An attribute that shares cookies across sites",
+            "An attribute that encrypts cookies",
+            "An attribute that deletes old cookies"
+        ],
+        correct: 0
+    },
+    {
+        question: "What is a security monitoring system?",
+        options: [
+            "A camera watching users",
+            "Continuous checking of systems for suspicious activity and threats",
+            "A firewall type",
+            "A backup system"
         ],
         correct: 1
     },
     {
-        question: "What is the secrets module in Python?",
+        question: "What is an incident response plan?",
         options: [
-            "A module for hiding files",
-            "A module for generating cryptographically strong random numbers suitable for managing data",
-            "A module for encryption",
-            "A module for compression"
+            "A marketing strategy",
+            "A step-by-step guide for what to do when a security breach happens",
+            "A type of firewall",
+            "A backup plan for data"
         ],
         correct: 1
     },
     {
-        question: "What is SQL Injection error-based in Python?",
+        question: "What is the CIA triad?",
+        options: [
+            "Central Intelligence Agency",
+            "Confidentiality, Integrity, Availability - the three core principles of security",
+            "A type of encryption",
+            "A firewall configuration"
+        ],
+        correct: 1
+    },
+    {
+        question: "What is Cross-Site Scripting payload?",
+        options: [
+            "The database structure",
+            "The actual malicious code that gets injected into a vulnerable website",
+            "The server configuration",
+            "The encryption key"
+        ],
+        correct: 1
+    },
+    {
+        question: "What is SQL Injection error-based?",
         options: [
             "SQL injection that causes no errors",
-            "A technique that uses database error messages to extract information",
-            "An attack on error logs",
-            "A way to fix SQL errors"
+            "Using database error messages to learn about the database structure",
+            "Fixing SQL errors",
+            "A type of backup"
         ],
         correct: 1
-    },
-    {
-        question: "What is the purpose of the hashlib module?",
-        options: [
-            "Hashing data for lookup tables",
-            "Providing secure hash and message digest algorithms",
-            "Creating hash maps",
-            "File indexing"
-        ],
-        correct: 1
-    },
-    {
-        question: "What is CORS in Python web applications?",
-        options: [
-            "Cross-Origin Resource Sharing - allows restricted resources to be requested from another domain",
-            "A type of encryption",
-            "A password hashing algorithm",
-            "A caching system"
-        ],
-        correct: 0
-    },
-    {
-        question: "What is the PyJWT library used for?",
-        options: [
-            "Creating JSON Web Tokens for secure authentication",
-            "Generating passwords",
-            "Encrypting files",
-            "Validating email addresses"
-        ],
-        correct: 0
-    },
-    {
-        question: "What is SQL Injection UNION attack in Python?",
-        options: [
-            "Using UNION to merge databases",
-            "Using UNION SELECT to extract data from other tables",
-            "A backup technique",
-            "A query optimization"
-        ],
-        correct: 1
-    },
-    {
-        question: "What is the purpose of the ssl module in Python?",
-        options: [
-            "SSL/TLS encryption for secure network connections",
-            "Creating SSL certificates",
-            "Validating SSL domains",
-            "All of the above"
-        ],
-        correct: 3
-    },
-    {
-        question: "What is SQL Injection time-based blind in Python?",
-        options: [
-            "SQL injection that only works at night",
-            "A technique that measures response time to infer information",
-            "A time-limited attack",
-            "A backup method"
-        ],
-        correct: 1
-    },
-    {
-        question: "What is the Django middleware for security?",
-        options: [
-            "A hardware component",
-            "Software that processes requests and responses for security features",
-            "A firewall",
-            "An antivirus"
-        ],
-        correct: 1
-    },
-    {
-        question: "What is the purpose of the cryptography library in Python?",
-        options: [
-            "Creating cryptic puzzles",
-            "Providing cryptographic recipes and primitives",
-            "Encrypting emails only",
-            "Creating digital signatures only"
-        ],
-        correct: 1
-    },
-    {
-        question: "What is SQL Injection Boolean-based blind in Python?",
-        options: [
-            "SQL injection that uses true/false conditions to extract data",
-            "SQL injection that is always visible",
-            "A type of stored injection",
-            "A backup technique"
-        ],
-        correct: 0
-    },
-    {
-        question: "What is the Safe Injection method in Python?",
-        options: [
-            "Injecting drugs safely",
-            "Using parameterized queries to safely execute SQL with user input",
-            "A medical procedure",
-            "A backup system"
-        ],
-        correct: 1
-    },
-    {
-        question: "What is the purpose of the werkzeug.security module?",
-        options: [
-            "Physical security",
-            "Providing password hashing and URL routing security utilities",
-            "Network security",
-            "File system security"
-        ],
-        correct: 1
-    },
-    {
-        question: "What is SQL Injection out-of-band in Python?",
-        options: [
-            "SQL injection using DNS or HTTP requests to extract data",
-            "SQL injection that occurs outside normal hours",
-            "A type of stored injection",
-            "A backup method"
-        ],
-        correct: 0
-    },
-    {
-        question: "What is the Argon2 password hashing algorithm?",
-        options: [
-            "A fast hashing algorithm",
-            "A memory-hard password hashing algorithm winner of the Password Hashing Competition",
-            "A type of encryption",
-            "A compression algorithm"
-        ],
-        correct: 1
-    },
-    {
-        question: "What is the purpose of the hmac module in Python?",
-        options: [
-            "Creating hash maps",
-            "Generating and verifying keyed-hash message authentication codes",
-            "Validating HTML",
-            "Encrypting files"
-        ],
-        correct: 1
-    },
-    {
-        question: "What is SQL Injection Second-Order in Python?",
-        options: [
-            "SQL injection that occurs immediately",
-            "SQL injection where malicious input is stored and executed later",
-            "A type of blind injection",
-            "A backup attack"
-        ],
-        correct: 1
-    },
-    {
-        question: "What is the Fernet encryption in Python?",
-        options: [
-            "A type of sandwich",
-            "A symmetric encryption method using AES-CBC with HMAC for authentication",
-            "An asymmetric encryption",
-            "A hashing algorithm"
-        ],
-        correct: 1
-    },
-    {
-        question: "What is the purpose of the token module in Python?",
-        options: [
-            "Creating cryptocurrency tokens",
-            "Generating secure random tokens for authentication and passwords",
-            "Managing API tokens",
-            "All of the above"
-        ],
-        correct: 3
-    },
-    {
-        question: "What is SQL Injection Stacked Queries in Python?",
-        options: [
-            "Using multiple SELECT statements",
-            "Executing multiple SQL statements separated by semicolons",
-            "A way to organize queries",
-            "A backup technique"
-        ],
-        correct: 1
-    },
-    {
-        question: "What is the purpose of the passlib library in Python?",
-        options: [
-            "Password management and hashing utilities",
-            "File encryption",
-            "Network security",
-            "Database security"
-        ],
-        correct: 0
-    },
-    {
-        question: "What is the SameSite cookie attribute in Python Flask?",
-        options: [
-            "An attribute that limits cookie access to same-site requests",
-            "An attribute that encrypts cookies",
-            "An attribute that deletes cookies",
-            "An attribute that shares cookies"
-        ],
-        correct: 0
-    },
-    {
-        question: "What is the purpose of the shlex module for security?",
-        options: [
-            "Shell lexing for safe command parsing",
-            "Encrypting shell commands",
-            "Validating shell scripts",
-            "Running shell commands"
-        ],
-        correct: 0
-    },
-    {
-        question: "What is SQL Injection where data is extracted via DNS?",
-        options: [
-            "DNS-based SQL injection - a type of out-of-band injection",
-            "A type of stored injection",
-            "A backup technique",
-            "A query optimization"
-        ],
-        correct: 0
-    },
-    {
-        question: "What is the purpose of the base64 module in security?",
-        options: [
-            "Encoding binary data for safe transmission",
-            "Encrypting data",
-            "Hashing passwords",
-            "Compressing data"
-        ],
-        correct: 0
-    },
-    {
-        question: "What is the Flask-Talisman extension used for?",
-        options: [
-            "Fortune telling",
-            "Setting security headers and enforcing HTTPS in Flask applications",
-            "Database security",
-            "File encryption"
-        ],
-        correct: 1
-    },
-    {
-        question: "What is SQL Injection Boolean-based blind where conditions are tested?",
-        options: [
-            "Testing true/false conditions to extract data character by character",
-            "Testing database connectivity",
-            "Testing server response time",
-            "Testing network latency"
-        ],
-        correct: 0
-    },
-    {
-        question: "What is the purpose of the keyring module in Python?",
-        options: [
-            "Storing keys on keyrings",
-            "Accessing the system keyring for secure credential storage",
-            "Generating encryption keys",
-            "Managing SSH keys"
-        ],
-        correct: 1
-    },
-    {
-        question: "What is the security implications of using eval() in Python?",
-        options: [
-            "No security implications",
-            "Can execute arbitrary code - serious security risk",
-            "Only affects performance",
-            "Only works with integers"
-        ],
-        correct: 1
-    },
-    {
-        question: "What is the purpose of the tpm module in Python security?",
-        options: [
-            "Total Physical Memory",
-            "Trusted Platform Module for hardware-based security",
-            "A type of encryption",
-            "A backup system"
-        ],
-        correct: 1
-    },
-    {
-        question: "What is SQL Injection where you infer data from page content?",
-        options: [
-            "Content-based inference - observing differences in page content",
-            "A type of stored injection",
-            "A backup technique",
-            "A query optimization"
-        ],
-        correct: 0
     },
     {
         question: "Which Python library is commonly used for password hashing?",
@@ -1201,5 +1051,155 @@ const pythonQuestions = [
             "To compress HTTP responses"
         ],
         correct: 1
+    },
+    {
+        question: "What is the X-Content-Type-Options header?",
+        options: [
+            "Sets the font size",
+            "Prevents the browser from guessing what type of file it is (prevents attacks)",
+            "Controls page caching",
+            "Sets the language"
+        ],
+        correct: 1
+    },
+    {
+        question: "What is the X-Frame-Options header?",
+        options: [
+            "Controls page layout",
+            "Prevents your page from being embedded in malicious iframes (clickjacking protection)",
+            "Sets frame colors",
+            "Controls navigation"
+        ],
+        correct: 1
+    },
+    {
+        question: "What is vulnerability scanning?",
+        options: [
+            "Scanning for computer viruses",
+            "Automatically checking systems for known security weaknesses",
+            "Scanning for malware",
+            "Checking network speed"
+        ],
+        correct: 1
+    },
+    {
+        question: "What is DOM-based XSS?",
+        options: [
+            "XSS that affects only the server",
+            "XSS where the vulnerability is in the page's JavaScript code, not the server",
+            "XSS that destroys the website",
+            "A type of stored XSS"
+        ],
+        correct: 1
+    },
+    {
+        question: "What is a phishing attack?",
+        options: [
+            "A way to catch fish online",
+            "A fake email or website that tricks you into revealing personal information",
+            "A type of fishing game",
+            "A password creation method"
+        ],
+        correct: 1
+    },
+    {
+        question: "What is two-factor authentication (2FA)?",
+        options: [
+            "Using two passwords",
+            "Adding an extra layer of security by requiring a second form of verification",
+            "Logging in from two devices",
+            "Having two user accounts"
+        ],
+        correct: 1
+    },
+    {
+        question: "What is a strong password?",
+        options: [
+            "Your name followed by numbers",
+            "A mix of uppercase, lowercase, numbers, and special characters",
+            "A short word that is easy to remember",
+            "Your birthday"
+        ],
+        correct: 1
+    },
+    {
+        question: "What is a SQL Injection login bypass?",
+        options: [
+            "Using a strong password to log in",
+            "Entering special characters in the login form to gain unauthorized access",
+            "Forgetting your password",
+            "Being locked out after too many attempts"
+        ],
+        correct: 1
+    },
+    {
+        question: "What does it mean to encrypt data?",
+        options: [
+            "Deleting the data",
+            "Converting data into a coded format that can only be read with a key",
+            "Copying the data to another location",
+            "Compressing the data to make it smaller"
+        ],
+        correct: 1
+    },
+    {
+        question: "What is a security patch?",
+        options: [
+            "A type of bandage for computers",
+            "An update that fixes security holes in software",
+            "A new feature for the application",
+            "A backup copy of the data"
+        ],
+        correct: 1
+    },
+    {
+        question: "Why should you never store passwords in plain text?",
+        options: [
+            "It takes up too much space",
+            "Anyone who accesses the database can see all the passwords",
+            "It makes the website slower",
+            "It is not allowed by law"
+        ],
+        correct: 1
+    },
+    {
+        question: "What is a web application firewall (WAF)?",
+        options: [
+            "A wall that protects the building",
+            "A security layer that filters and monitors traffic to a web application",
+            "A type of antivirus",
+            "A backup system"
+        ],
+        correct: 1
+    },
+    {
+        question: "What is cross-site scripting (XSS) reflected?",
+        options: [
+            "XSS that is stored permanently",
+            "XSS where the malicious script bounces off the server back to the user",
+            "XSS that only works on desktop",
+            "XSS that deletes the website"
+        ],
+        correct: 1
+    },
+    {
+        question: "What is the most common way attackers find vulnerabilities?",
+        options: [
+            "Reading the user manual",
+            "Scanning the website for known weaknesses and misconfigurations",
+            "Asking the developer nicely",
+            "Looking at the website's color scheme"
+        ],
+        correct: 1
+    },
+    {
+        question: "What is a database backup and why is it important for security?",
+        options: [
+            "A copy of data stored elsewhere so you can restore it if the original is lost or attacked",
+            "A way to make the database faster",
+            "A type of encryption",
+            "A password manager"
+        ],
+        correct: 0
     }
 ];
