@@ -307,6 +307,17 @@ function displayResults(result) {
     
     document.getElementById('ai-status-text').textContent = result.aiUsage;
     
+    const activities = JSON.parse(sessionStorage.getItem('suspiciousActivities') || '[]');
+    const suspiciousDiv = document.getElementById('suspicious-activity');
+    const activityLog = document.getElementById('activity-log');
+    
+    if (activities.length > 0) {
+        suspiciousDiv.style.display = 'block';
+        activityLog.innerHTML = activities.map(a => 
+            `<div class="activity-item"><span class="activity-type">${a.type}</span><span class="activity-time">${a.time}</span></div>`
+        ).join('');
+    }
+    
     const reviewSection = document.getElementById('review-answers');
     reviewSection.innerHTML = '';
     const letters = ['A', 'B', 'C', 'D'];
@@ -391,13 +402,26 @@ function showWarning(message) {
     warningCount++;
     document.getElementById('warning-message').textContent = message;
     document.getElementById('warning-count').textContent = warningCount;
+    document.getElementById('proctor-warning-count').textContent = warningCount;
     document.getElementById('warning-modal').style.display = 'flex';
+    
+    logSuspiciousActivity(message);
     
     if (warningCount >= 3) {
         clearInterval(timerInterval);
+        clearInterval(timeUsedInterval);
         alert('You have received too many warnings. Your quiz will be submitted automatically.');
         submitQuiz();
     }
+}
+
+function logSuspiciousActivity(activity) {
+    const activities = JSON.parse(sessionStorage.getItem('suspiciousActivities') || '[]');
+    activities.push({
+        type: activity,
+        time: new Date().toLocaleTimeString()
+    });
+    sessionStorage.setItem('suspiciousActivities', JSON.stringify(activities));
 }
 
 function closeModal() {
