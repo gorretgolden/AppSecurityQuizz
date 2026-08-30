@@ -1,0 +1,281 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>App Security Quiz - Refactory Academy</title>
+    <link rel="stylesheet" href="style.css">
+</head>
+<body>
+    <!-- REGISTRATION PAGE -->
+    <div id="registration-page" class="page active">
+        <div class="container">
+            <div class="header">
+                <h1>🔐 Application Security Quiz</h1>
+                <p class="subtitle">Refactory Academy - OAS Bay</p>
+            </div>
+            
+            <div class="card">
+                <h2>Student Registration</h2>
+                <p class="info">Register before starting the quiz. Only @refactory.academy emails are accepted.</p>
+                
+                <form id="registration-form">
+                    <div class="form-group">
+                        <label for="fullname">Full Name *</label>
+                        <input type="text" id="fullname" name="fullname" required placeholder="Enter your full name">
+                    </div>
+                    
+                    <div class="form-group">
+                        <label for="email">Email Address *</label>
+                        <input type="email" id="email" name="email" required placeholder="yourname@refactory.academy">
+                        <small class="error-text" id="email-error"></small>
+                    </div>
+                    
+                    <div class="form-group">
+                        <label for="track">Select Track *</label>
+                        <select id="track" name="track" required>
+                            <option value="">-- Select your track --</option>
+                            <option value="javascript">JavaScript Track</option>
+                            <option value="python">Python Track</option>
+                        </select>
+                    </div>
+                    
+                    <div class="quiz-schedule">
+                        <h3>Quiz Schedule</h3>
+                        <div class="schedule-item">
+                            <span class="track-label js">JavaScript</span>
+                            <span class="time">Tomorrow at 6:00 PM</span>
+                        </div>
+                        <div class="schedule-item">
+                            <span class="track-label py">Python</span>
+                            <span class="time">Tomorrow 8:00 AM - 9:00 AM</span>
+                        </div>
+                    </div>
+                    
+                    <div class="rules">
+                        <h3>📋 Quiz Info</h3>
+                        <ul>
+                            <li>Duration: <strong>1 Hour</strong> (20 questions)</li>
+                            <li><strong>ONE TIME ONLY</strong> - You cannot retake the quiz</li>
+                        </ul>
+                    </div>
+                    
+                    <button type="submit" class="btn-primary">Register & Start Quiz</button>
+                </form>
+            </div>
+            
+            <a href="#" class="admin-link" onclick="showAdminLogin()">📚 Instructor Dashboard</a>
+        </div>
+    </div>
+
+    <!-- QUIZ PAGE -->
+    <div id="quiz-page" class="page">
+        <div class="quiz-header">
+            <div class="quiz-info">
+                <span id="student-name"></span>
+                <span id="track-badge"></span>
+            </div>
+            
+            <div class="timer-section">
+                <div class="timer-main">
+                    <div class="timer" id="timer">
+                        <span class="timer-icon">⏱️</span>
+                        <div class="timer-details">
+                            <span class="timer-label">Time Remaining</span>
+                            <span id="time-display">60:00</span>
+                        </div>
+                    </div>
+                    <div class="time-used" id="time-used">
+                        <span class="timer-label">Time Used</span>
+                        <span id="time-used-display">00:00</span>
+                    </div>
+                </div>
+                <div class="question-time" id="question-time">
+                    <span class="timer-label">This Question</span>
+                    <span id="question-time-display">00:00</span>
+                </div>
+            </div>
+            
+            <div class="progress">
+                <div class="progress-info">
+                    <span id="question-counter">Question 1 of 20</span>
+                    <span id="answered-counter">0 answered</span>
+                </div>
+                <div class="progress-bar">
+                    <div class="progress-fill" id="progress-fill"></div>
+                </div>
+            </div>
+        </div>
+
+        <div class="quiz-body">
+            <div class="question-card" id="question-card">
+                <div class="question-header">
+                    <span class="question-number" id="question-number">Q1</span>
+                    <span class="question-of" id="question-of">of 20</span>
+                </div>
+                <h3 id="question-text"></h3>
+                <div class="options" id="options-container"></div>
+            </div>
+            
+            <div class="quiz-navigation">
+                <button class="btn-secondary" id="prev-btn" onclick="prevQuestion()">← Previous</button>
+                <button class="btn-primary" id="next-btn" onclick="nextQuestion()">Next →</button>
+                <button class="btn-submit" id="submit-btn" onclick="submitQuiz()" style="display:none;">Submit Quiz</button>
+            </div>
+        </div>
+    </div>
+
+    <!-- RESULTS PAGE -->
+    <div id="results-page" class="page">
+        <div class="container">
+            <div class="results-card">
+                <h1>Quiz Results</h1>
+                <div class="result-student" id="result-student"></div>
+                
+                <div class="score-circle" id="score-circle">
+                    <span class="score-number" id="score-number">0</span>
+                    <span class="score-total" id="score-total">/20</span>
+                </div>
+                
+                <div class="score-percentage" id="score-percentage">0%</div>
+                <div class="score-grade" id="score-grade"></div>
+                
+                <div class="result-details">
+                    <div class="detail-item">
+                        <span class="label">Correct Answers:</span>
+                        <span class="value" id="correct-count">0</span>
+                    </div>
+                    <div class="detail-item">
+                        <span class="label">Wrong Answers:</span>
+                        <span class="value" id="wrong-count">0</span>
+                    </div>
+                    <div class="detail-item">
+                        <span class="label">Time Taken:</span>
+                        <span class="value" id="time-taken">0:00</span>
+                    </div>
+                </div>
+                
+                <div class="ai-status" id="ai-status">
+                    <h3>🤖 AI Usage Status</h3>
+                    <p id="ai-status-text">AI assistance was not detected during this quiz.</p>
+                </div>
+                
+                <div class="result-actions">
+                    <button class="btn-secondary" onclick="printResults()">🖨️ Print Results</button>
+                    <button class="btn-secondary" onclick="shareResults()">📤 Share Results</button>
+                </div>
+                
+                <div class="review-section" id="review-section">
+                    <h2>Answer Review</h2>
+                    <div id="review-answers"></div>
+                </div>
+                
+                <button class="btn-primary" onclick="location.reload()">Back to Home</button>
+            </div>
+        </div>
+    </div>
+
+    <!-- ADMIN DASHBOARD -->
+    <div id="admin-page" class="page">
+        <div class="container">
+            <div class="header">
+                <h1>📊 Instructor Dashboard</h1>
+                <p class="subtitle">View and export all student results</p>
+            </div>
+            
+            <div class="admin-controls">
+                <div class="admin-filters">
+                    <select id="filter-track" onchange="filterResults()">
+                        <option value="all">All Tracks</option>
+                        <option value="javascript">JavaScript</option>
+                        <option value="python">Python</option>
+                    </select>
+                    <input type="text" id="search-student" placeholder="Search by name..." oninput="filterResults()">
+                </div>
+                <div class="admin-actions">
+                    <button class="btn-export" onclick="exportToExcel()">📥 Export to Excel</button>
+                    <button class="btn-export" onclick="printAllResults()">🖨️ Print All</button>
+                    <button class="btn-export btn-danger" onclick="clearAllResults()">🗑️ Clear All</button>
+                </div>
+            </div>
+            
+            <div class="results-summary">
+                <div class="summary-item">
+                    <span class="summary-label">Total Students</span>
+                    <span class="summary-value" id="total-students">0</span>
+                </div>
+                <div class="summary-item">
+                    <span class="summary-label">Average Score</span>
+                    <span class="summary-value" id="avg-score">0%</span>
+                </div>
+                <div class="summary-item">
+                    <span class="summary-label">Highest Score</span>
+                    <span class="summary-value" id="highest-score">0%</span>
+                </div>
+            </div>
+            
+            <div class="results-table-container">
+                <table class="results-table" id="results-table">
+                    <thead>
+                        <tr>
+                            <th>#</th>
+                            <th>Name</th>
+                            <th>Email</th>
+                            <th>Track</th>
+                            <th>Score</th>
+                            <th>Percentage</th>
+                            <th>Time Taken</th>
+                            <th>Warnings</th>
+                            <th>Date</th>
+                        </tr>
+                    </thead>
+                    <tbody id="results-tbody">
+                    </tbody>
+                </table>
+            </div>
+            
+            <button class="btn-secondary" onclick="showPage('registration-page')" style="margin-top:20px;">← Back to Quiz</button>
+        </div>
+    </div>
+
+    <!-- ADMIN LOGIN MODAL -->
+    <div id="admin-login-modal" class="modal" style="display:none;">
+        <div class="modal-content">
+            <h2>🔒 Instructor Login</h2>
+            <form onsubmit="adminLogin(event)">
+                <div class="form-group">
+                    <label for="admin-password">Password</label>
+                    <input type="password" id="admin-password" placeholder="Enter instructor password" required>
+                    <small class="error-text" id="admin-error"></small>
+                </div>
+                <button type="submit" class="btn-primary">Login</button>
+                <button type="button" class="btn-secondary" onclick="closeModal()" style="margin-top:10px;">Cancel</button>
+            </form>
+        </div>
+    </div>
+
+    <!-- SHARE LINK MODAL -->
+    <div id="share-modal" class="modal" style="display:none;">
+        <div class="modal-content">
+            <h2>📤 Share Results</h2>
+            <p>Copy the link below to share your results:</p>
+            <input type="text" id="share-link" readonly class="share-input">
+            <button class="btn-primary" onclick="copyShareLink()">📋 Copy Link</button>
+            <button class="btn-secondary" onclick="closeShareModal()" style="margin-top:10px;">Close</button>
+        </div>
+    </div>
+
+    <!-- WARNING MODAL -->
+    <div id="warning-modal" class="modal" style="display:none;">
+        <div class="modal-content">
+            <h2>⚠️ Warning!</h2>
+            <p id="warning-message">Tab switching is not allowed during the quiz.</p>
+            <p class="warning-count">Warnings: <span id="warning-count">0</span>/3</p>
+            <button class="btn-primary" onclick="closeModal()">I Understand</button>
+        </div>
+    </div>
+
+    <script src="questions.js"></script>
+    <script src="app.js"></script>
+</body>
+</html>
