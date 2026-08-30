@@ -14,6 +14,8 @@ let timeUsedInterval;
 const ADMIN_PASSWORD = 'refactory2024';
 
 function init() {
+    loadFormDraft();
+    
     const params = new URLSearchParams(window.location.search);
     const viewId = params.get('view');
     const shareId = params.get('share');
@@ -26,6 +28,32 @@ function init() {
         showAdminDashboard();
     }
 }
+
+function saveFormDraft() {
+    const draft = {
+        fullname: document.getElementById('fullname').value,
+        email: document.getElementById('email').value,
+        track: document.getElementById('track').value
+    };
+    localStorage.setItem('quizDraft', JSON.stringify(draft));
+}
+
+function loadFormDraft() {
+    const draft = JSON.parse(localStorage.getItem('quizDraft') || 'null');
+    if (draft) {
+        document.getElementById('fullname').value = draft.fullname || '';
+        document.getElementById('email').value = draft.email || '';
+        document.getElementById('track').value = draft.track || '';
+    }
+}
+
+function clearFormDraft() {
+    localStorage.removeItem('quizDraft');
+}
+
+document.getElementById('fullname').addEventListener('input', saveFormDraft);
+document.getElementById('email').addEventListener('input', saveFormDraft);
+document.getElementById('track').addEventListener('change', saveFormDraft);
 
 document.getElementById('registration-form').addEventListener('submit', function(e) {
     e.preventDefault();
@@ -70,6 +98,7 @@ document.getElementById('registration-form').addEventListener('submit', function
     currentQuestion = 0;
     warningCount = 0;
     questionTimes = [];
+    clearFormDraft();
     
     currentStudent = { fullname, email, track };
     
