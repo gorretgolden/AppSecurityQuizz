@@ -447,39 +447,6 @@ function displayResults(result) {
         ).join('');
     }
     
-    const reviewSection = document.getElementById('review-answers');
-    reviewSection.innerHTML = '';
-    const letters = ['A', 'B', 'C', 'D'];
-    
-    const quizQuestions = result.track === 'javascript' ? javascriptQuestions : pythonQuestions;
-    
-    quizQuestions.forEach((q, i) => {
-        const isCorrect = result.answers[i] === q.correct;
-        const reviewItem = document.createElement('div');
-        reviewItem.className = `review-item ${isCorrect ? 'correct' : 'wrong'}`;
-        
-        let answerHtml = '';
-        if (isCorrect) {
-            answerHtml = `<strong>Correct: ${letters[q.correct]}. ${q.options[q.correct]}</strong>`;
-        } else {
-            const userAnswer = result.answers[i] !== null ? 
-                `<span class="wrong-answer">Your answer: ${letters[result.answers[i]]}. ${q.options[result.answers[i]]}</span>` : 
-                '<span class="wrong-answer">Not answered</span>';
-            answerHtml = `${userAnswer}<br><strong>Correct: ${letters[q.correct]}. ${q.options[q.correct]}</strong>`;
-        }
-        
-        const qTime = result.questionTimes && result.questionTimes[i] ? result.questionTimes[i] : 0;
-        const qMin = Math.floor(qTime / 60);
-        const qSec = qTime % 60;
-        
-        reviewItem.innerHTML = `
-            <div class="review-question">${i + 1}. ${q.question}</div>
-            <div class="review-answer">${answerHtml}</div>
-            <div class="review-time">Time: ${qMin}m ${qSec}s</div>
-        `;
-        reviewSection.appendChild(reviewItem);
-    });
-    
     showPage('results-page');
 }
 
