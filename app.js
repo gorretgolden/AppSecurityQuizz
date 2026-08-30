@@ -15,6 +15,7 @@ const ADMIN_PASSWORD = 'refactory2024';
 
 function init() {
     loadFormDraft();
+    updateScheduleStatus();
     
     const params = new URLSearchParams(window.location.search);
     const viewId = params.get('view');
@@ -51,9 +52,68 @@ function clearFormDraft() {
     localStorage.removeItem('quizDraft');
 }
 
+function updateScheduleStatus() {
+    const jsStatus = document.getElementById('js-status');
+    const pyStatus = document.getElementById('py-status');
+    
+    if (!jsStatus || !pyStatus) return;
+    
+    const jsResult = isQuizOpen('javascript');
+    const pyResult = isQuizOpen('python');
+    
+    if (jsResult.open) {
+        jsStatus.textContent = 'Open Now';
+        jsStatus.className = 'quiz-status open';
+    } else {
+        jsStatus.textContent = 'Closed';
+        jsStatus.className = 'quiz-status closed';
+    }
+    
+    if (pyResult.open) {
+        pyStatus.textContent = 'Open Now';
+        pyStatus.className = 'quiz-status open';
+    } else {
+        pyStatus.textContent = 'Closed';
+        pyStatus.className = 'quiz-status closed';
+    }
+}
+
 document.getElementById('fullname').addEventListener('input', saveFormDraft);
 document.getElementById('email').addEventListener('input', saveFormDraft);
 document.getElementById('track').addEventListener('change', saveFormDraft);
+
+function isQuizOpen(track) {
+    const now = new Date();
+    const year = now.getFullYear();
+    const month = now.getMonth();
+    const day = now.getDate();
+    const hours = now.getHours();
+    const minutes = now.getMinutes();
+    const currentTime = hours * 60 + minutes;
+    
+    const quizDate = new Date(year, 7, 31);
+    
+    if (now < quizDate) return { open: false, message: 'Quiz has not started yet. Quiz is on 31/08/2026.' };
+    if (now > new Date(year, 7, 31, 19, 0)) return { open: false, message: 'Quiz period has ended.' };
+    
+    if (track === 'javascript') {
+        const start = 18 * 60;
+        const end = 19 * 60;
+        if (currentTime < start) return { open: false, message: 'JavaScript quiz opens at 6:00 PM (18:00) on 31/08/2026.' };
+        if (currentTime >= end) return { open: false, message: 'JavaScript quiz closed at 7:00 PM (19:00).' };
+        return { open: true };
+    }
+    
+    if (track === 'python') {
+        const start = 8 * 60;
+        const end = 9 * 60;
+        if (currentTime < start) return { open: false, message: 'Python quiz opens at 8:00 AM on 31/08/2026.' };
+        if (currentTime >= end) return { open: false, message: 'Python quiz closed at 9:00 AM.' };
+        return { open: true };
+    }
+    
+    return { open: false, message: 'Invalid track selected.' };
+}
 
 document.getElementById('registration-form').addEventListener('submit', function(e) {
     e.preventDefault();
@@ -67,6 +127,12 @@ document.getElementById('registration-form').addEventListener('submit', function
     
     if (!fullname || !email || !track) {
         alert('Please fill in all fields');
+        return;
+    }
+    
+    const quizStatus = isQuizOpen(track);
+    if (!quizStatus.open) {
+        alert(quizStatus.message);
         return;
     }
     

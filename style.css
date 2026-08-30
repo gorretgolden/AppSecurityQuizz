@@ -167,6 +167,29 @@ body {
     color: #e0e0e0;
 }
 
+.quiz-status {
+    font-size: 0.8rem;
+    font-weight: 600;
+    padding: 3px 10px;
+    border-radius: 12px;
+    text-transform: uppercase;
+}
+
+.quiz-status.open {
+    background: rgba(0, 184, 148, 0.2);
+    color: #00b894;
+}
+
+.quiz-status.closed {
+    background: rgba(255, 107, 107, 0.2);
+    color: #ff6b6b;
+}
+
+.quiz-status.upcoming {
+    background: rgba(255, 193, 7, 0.2);
+    color: #ffc107;
+}
+
 .rules {
     background: rgba(255, 107, 107, 0.1);
     border-radius: 15px;
