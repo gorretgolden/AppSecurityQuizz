@@ -130,11 +130,12 @@ document.getElementById('registration-form').addEventListener('submit', function
         return;
     }
     
-    const quizStatus = isQuizOpen(track);
-    if (!quizStatus.open) {
-        alert(quizStatus.message);
-        return;
-    }
+    // Time validation - DISABLED for testing, re-enable before going live
+    // const quizStatus = isQuizOpen(track);
+    // if (!quizStatus.open) {
+    //     alert(quizStatus.message);
+    //     return;
+    // }
     
     const emailRegex = /^[a-zA-Z0-9._%+-]+@refactory\.academy$/;
     if (!emailRegex.test(email)) {
