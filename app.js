@@ -411,17 +411,6 @@ function displayResults(result) {
     
     document.getElementById('ai-status-text').textContent = result.aiUsage;
     
-    const activities = JSON.parse(sessionStorage.getItem('suspiciousActivities') || '[]');
-    const suspiciousDiv = document.getElementById('suspicious-activity');
-    const activityLog = document.getElementById('activity-log');
-    
-    if (activities.length > 0) {
-        suspiciousDiv.style.display = 'block';
-        activityLog.innerHTML = activities.map(a => 
-            `<div class="activity-item"><span class="activity-type">${a.type}</span><span class="activity-time">${a.time}</span></div>`
-        ).join('');
-    }
-    
     showPage('results-page');
 }
 
