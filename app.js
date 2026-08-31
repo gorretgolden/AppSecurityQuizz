@@ -132,24 +132,10 @@ if (_regForm) _regForm.addEventListener('submit', function(e) {
     const submitBtn = document.querySelector('#registration-form button[type="submit"]');
     submitBtn.disabled = true;
     submitBtn.innerHTML = '<i class="fas fa-spinner fa-spin"></i> Checking...';
-    
-    db.ref('quizResults').orderByChild('email').equalTo(email).once('value', function(snapshot) {
-        let duplicate = false;
-        snapshot.forEach(function(child) {
-            const r = child.val();
-            if (r.fullname && r.fullname.toLowerCase() === fullname.toLowerCase() && r.track === track) {
-                duplicate = true;
-            }
-        });
-        
+
+    const startQuizNow = function() {
         submitBtn.disabled = false;
         submitBtn.innerHTML = '<i class="fas fa-play"></i> Register & Start Quiz';
-        
-        if (duplicate) {
-            showCustomAlert('Duplicate Detected', 'This student with this name and email has already taken this quiz in this track. Each student can only take the quiz once.', 'danger', null);
-            return;
-        }
-        
         currentTrack = track;
         const rawQuestions = track === 'python' ? pythonQuestions : javascriptQuestions;
         questions = shuffleQuestions(JSON.parse(JSON.stringify(rawQuestions)));
@@ -178,6 +164,30 @@ if (_regForm) _regForm.addEventListener('submit', function(e) {
         startTimer();
         loadQuestion();
         enableAntiCheat();
+    };
+
+    if (sessionStorage.getItem('instructorAccess') === '1' || email === ADMIN_EMAIL) {
+        startQuizNow();
+        return;
+    }
+
+    db.ref('quizResults').once('value', function(snapshot) {
+        let duplicate = false;
+        snapshot.forEach(function(child) {
+            const r = child.val();
+            if (r.email && r.email.toLowerCase() === email && r.track === track) {
+                duplicate = true;
+            }
+        });
+        submitBtn.disabled = false;
+        submitBtn.innerHTML = '<i class="fas fa-play"></i> Register & Start Quiz';
+        if (duplicate) {
+            showCustomAlert('Duplicate Detected', 'This student with this name and email has already taken this quiz in this track. Each student can only take the quiz once.', 'danger', null);
+            return;
+        }
+        startQuizNow();
+    }, function() {
+        startQuizNow();
     });
 });
 
@@ -691,7 +701,7 @@ function adminLogin(e) {
     
     if (password === ADMIN_PASSWORD && email === ADMIN_EMAIL) {
         sessionStorage.setItem('instructorAccess', '1');
-        showAdminDashboard();
+        openInstructorQuiz();
     } else {
         errorEl.textContent = 'Invalid email or password';
     }
