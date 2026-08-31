@@ -472,9 +472,9 @@ function enableAntiCheat() {
 
     window.addEventListener('focus', flushLeaveWarning);
     window.addEventListener('beforeunload', function(e) {
-        if (!quizSubmitted) {
+        if (currentStudent && !quizSubmitted) {
             e.preventDefault();
-            e.returnValue = '';
+            e.returnValue = 'Your quiz has not been submitted.';
         }
     });
 }
@@ -494,10 +494,17 @@ function flushLeaveWarning() {
 function showWarning(message) {
     if (quizSubmitted || warningCount >= 3) return;
     warningCount++;
-    document.getElementById('warning-message').textContent = message;
-    document.getElementById('warning-count').textContent = warningCount;
-    document.getElementById('proctor-warning-count').textContent = warningCount;
-    document.getElementById('warning-modal').style.display = 'flex';
+    const warningModal = document.getElementById('warning-modal');
+    const warningMessage = document.getElementById('warning-message');
+    const warningCountEl = document.getElementById('warning-count');
+    const proctorCountEl = document.getElementById('proctor-warning-count');
+    if (warningMessage) warningMessage.textContent = message;
+    if (warningCountEl) warningCountEl.textContent = warningCount;
+    if (proctorCountEl) proctorCountEl.textContent = warningCount;
+    if (warningModal) {
+        warningModal.style.setProperty('display', 'flex', 'important');
+        warningModal.setAttribute('aria-hidden', 'false');
+    }
     
     logSuspiciousActivity(message);
     
@@ -520,6 +527,8 @@ function logSuspiciousActivity(activity) {
 function closeModal() {
     document.getElementById('warning-modal').style.display = 'none';
     document.getElementById('admin-login-modal').style.display = 'none';
+    pendingLeaveWarning = '';
+    leaveWarningShown = false;
 }
 
 function toggleProctorReport() {
