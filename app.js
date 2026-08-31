@@ -742,13 +742,14 @@ function updateProctorReport(results) {
     const totalWarnings = results.reduce((sum, r) => sum + (r.warnings || 0), 0);
     const studentsWithViolations = results.filter(r => (r.warnings || 0) > 0).length;
     
-    document.getElementById('total-warnings').textContent = totalWarnings;
-    document.getElementById('students-with-violations').textContent = studentsWithViolations;
+    const totalEl = document.getElementById('total-warnings');
+    const violationsEl = document.getElementById('students-with-violations');
+    if (totalEl) totalEl.textContent = totalWarnings;
+    if (violationsEl) violationsEl.textContent = studentsWithViolations;
     
-    // Show the proctor report if there are violations
     const proctorReport = document.getElementById('instructor-proctor-report');
-    if (totalWarnings > 0) {
-        report.style.display = 'block';
+    if (proctorReport && totalWarnings > 0) {
+        proctorReport.style.display = 'block';
     }
 }
 
