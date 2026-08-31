@@ -49,13 +49,6 @@ function init() {
     }
 }
 
-function showAdminLogin() {
-    const q = document.getElementById('quiz-unavailable');
-    const a = document.getElementById('admin-login-card');
-    if (q) q.style.display = 'none';
-    if (a) a.style.display = 'block';
-}
-
 function downloadMyResult() {
     db.ref('quizResults').once('value', function(snapshot) {
         const results = [];
@@ -157,7 +150,7 @@ if (_regForm) _regForm.addEventListener('submit', function(e) {
         }
         
         currentTrack = track;
-        const rawQuestions = pythonQuestions;
+        const rawQuestions = track === 'python' ? pythonQuestions : javascriptQuestions;
         questions = shuffleQuestions(JSON.parse(JSON.stringify(rawQuestions)));
         userAnswers = new Array(questions.length).fill(null);
         currentQuestion = 0;
@@ -170,8 +163,8 @@ if (_regForm) _regForm.addEventListener('submit', function(e) {
         
         document.getElementById('student-name').textContent = fullname;
         const badge = document.getElementById('track-badge');
-        badge.textContent = 'Python Track';
-        badge.className = 'track-label py';
+        badge.textContent = track === 'python' ? 'Python Track' : 'JavaScript Track';
+        badge.className = 'track-label ' + (track === 'python' ? 'py' : 'js');
         
         const watermarkEl = document.getElementById('watermark-overlay');
         const watermarkText = (fullname + ' • ' + email + ' • ').repeat(200);
@@ -663,6 +656,10 @@ function showSharedResult(resultId) {
     });
 }
 
+function showAdminLogin() {
+    document.getElementById('admin-login-modal').style.display = 'flex';
+}
+
 function adminLogin(e) {
     e.preventDefault();
     const email = document.getElementById('admin-email').value;
@@ -670,6 +667,7 @@ function adminLogin(e) {
     const errorEl = document.getElementById('admin-error');
     
     if (password === ADMIN_PASSWORD && email === ADMIN_EMAIL) {
+        closeModal();
         showAdminDashboard();
     } else {
         errorEl.textContent = 'Invalid email or password';
@@ -712,7 +710,7 @@ function displayResultsTable(results) {
             <td>${index + 1}</td>
             <td>${result.fullname}</td>
             <td>${result.email}</td>
-            <td><span class="track-label py">${result.track}</span></td>
+            <td><span class="track-label ${result.track === 'python' ? 'py' : 'js'}">${result.track}</span></td>
             <td>${result.score}/${result.total}</td>
             <td>${result.percentage}%</td>
             <td>${startTime ? startTime.toLocaleTimeString('en-GB', {hour:'2-digit', minute:'2-digit'}) : '-'}</td>
