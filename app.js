@@ -299,19 +299,6 @@ function prevQuestion() {
 }
 
 function submitQuiz() {
-    const unanswered = userAnswers.filter(a => a === null).length;
-    if (unanswered > 0) {
-        showCustomAlert(
-            'Unanswered Questions',
-            `You have ${unanswered} unanswered question(s). Are you sure you want to submit?`,
-            'warning',
-            [
-                { text: 'Cancel', class: 'btn-secondary', action: function() { startTimer(); } },
-                { text: 'Submit Anyway', class: 'btn-danger-alert', action: function() { doSubmitQuiz(); } }
-            ]
-        );
-        return;
-    }
     doSubmitQuiz();
 }
 
@@ -352,9 +339,9 @@ function doSubmitQuiz() {
         aiUsage: detectAIUsage()
     };
     
-    saveResult(result);
     currentStudent.id = result.id;
     displayResults(result);
+    saveResult(result);
 }
 
 function generateId() {
@@ -372,15 +359,24 @@ function detectAIUsage() {
 }
 
 function saveResult(result) {
+    const results = JSON.parse(localStorage.getItem('quizResults') || '[]');
+    const localKey = result.email + '_' + result.track;
+    const existingIndex = results.findIndex(r => r.email + '_' + r.track === localKey);
+    if (existingIndex >= 0) {
+        results[existingIndex] = result;
+    } else {
+        results.push(result);
+    }
+    localStorage.setItem('quizResults', JSON.stringify(results));
+
     try {
         const safeKey = (result.email + '_' + result.track).replace(/[.#$[\]]/g, '_');
         const ref = db.ref('quizResults/' + safeKey);
-        ref.set(result);
+        ref.set(result).catch(function(error) {
+            console.error('Firebase save failed:', error);
+        });
     } catch(e) {
         console.error('Firebase save failed:', e);
-        const results = JSON.parse(localStorage.getItem('quizResults') || '[]');
-        results.push(result);
-        localStorage.setItem('quizResults', JSON.stringify(results));
     }
 }
 
