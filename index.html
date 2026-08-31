@@ -40,20 +40,6 @@
                         </select>
                     </div>
                     
-                    <div class="quiz-schedule">
-                        <h3><i class="fas fa-calendar-days"></i> Quiz Schedule</h3>
-                        <div class="schedule-item">
-                            <span class="track-label js">JavaScript</span>
-                            <span class="time">31/08/2026 - 6:00 PM to 7:00 PM</span>
-                            <span class="quiz-status" id="js-status"></span>
-                        </div>
-                        <div class="schedule-item">
-                            <span class="track-label py">Python</span>
-                            <span class="time">31/08/2026 - 8:00 AM to 9:00 AM</span>
-                            <span class="quiz-status" id="py-status"></span>
-                        </div>
-                    </div>
-                    
                     <div class="rules">
                         <h3><i class="fas fa-clipboard-list"></i> Quiz Info</h3>
                         <ul>
@@ -73,8 +59,6 @@
                     <button class="btn-primary" onclick="downloadMyResult()" style="background:#4caf50;"><i class="fas fa-file-download"></i> Download My Result</button>
                 </div>
             </div>
-
-            <a href="#" class="admin-link" onclick="showAdminLogin()" style="display:none;"><i class="fas fa-chalkboard-teacher"></i> Instructor Dashboard</a>
         </div>
     </div>
 
@@ -169,6 +153,14 @@
                         <span class="value" id="wrong-count">0</span>
                     </div>
                     <div class="detail-item">
+                        <span class="label"><i class="fas fa-calendar"></i> Date:</span>
+                        <span class="value" id="result-date">-</span>
+                    </div>
+                    <div class="detail-item">
+                        <span class="label"><i class="fas fa-hourglass-start"></i> Start Time:</span>
+                        <span class="value" id="result-start-time">-</span>
+                    </div>
+                    <div class="detail-item">
                         <span class="label"><i class="fas fa-clock"></i> Time Taken:</span>
                         <span class="value" id="time-taken">0:00</span>
                     </div>
@@ -241,6 +233,7 @@
                             <th>Track</th>
                             <th>Score</th>
                             <th>Percentage</th>
+                            <th>Start Time</th>
                             <th>Time Taken</th>
                             <th>Warnings</th>
                             <th>Date</th>
@@ -260,6 +253,10 @@
         <div class="modal-content">
             <h2><i class="fas fa-lock"></i> Instructor Login</h2>
             <form onsubmit="adminLogin(event)">
+                <div class="form-group">
+                    <label for="admin-email">Email</label>
+                    <input type="email" id="admin-email" placeholder="Enter instructor email" required>
+                </div>
                 <div class="form-group">
                     <label for="admin-password">Password</label>
                     <input type="password" id="admin-password" placeholder="Enter instructor password" required>

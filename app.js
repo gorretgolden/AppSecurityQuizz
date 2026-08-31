@@ -13,6 +13,7 @@ let questionStartTime = 0;
 let questionTimes = [];
 let timeUsedInterval;
 const ADMIN_PASSWORD = 'refactory2024';
+const ADMIN_EMAIL = 'gorretgolden@refactory.academy';
 
 function shuffleArray(arr) {
     for (let i = arr.length - 1; i > 0; i--) {
@@ -34,7 +35,6 @@ function shuffleQuestions(qlist) {
 
 function init() {
     loadFormDraft();
-    updateScheduleStatus();
     
     const params = new URLSearchParams(window.location.search);
     const viewId = params.get('view');
@@ -47,9 +47,6 @@ function init() {
     } else if (window.location.hash === '#admin') {
         showAdminDashboard();
     }
-    
-    const adminLink = document.querySelector('.admin-link');
-    if (adminLink) adminLink.style.display = 'inline-block';
 }
 
 function downloadMyResult() {
@@ -98,54 +95,9 @@ function clearFormDraft() {
     localStorage.removeItem('quizDraft');
 }
 
-function updateScheduleStatus() {
-    // Python track only - always enabled
-    const trackSelect = document.getElementById('track');
-    if (trackSelect) {
-        const pyOption = trackSelect.querySelector('option[value="python"]');
-        if (pyOption) {
-            pyOption.disabled = false;
-            pyOption.textContent = 'Python Track';
-        }
-    }
-}
-
 document.getElementById('fullname').addEventListener('input', saveFormDraft);
 document.getElementById('email').addEventListener('input', saveFormDraft);
 document.getElementById('track').addEventListener('change', saveFormDraft);
-
-function isQuizOpen(track) {
-    const now = new Date();
-    const year = now.getFullYear();
-    const month = now.getMonth();
-    const day = now.getDate();
-    const hours = now.getHours();
-    const minutes = now.getMinutes();
-    const currentTime = hours * 60 + minutes;
-    
-    const quizDate = new Date(year, 7, 31);
-    
-    if (now < quizDate) return { open: false, message: 'Quiz has not started yet. Quiz is on 31/08/2026.' };
-    if (now > new Date(year, 7, 31, 19, 0)) return { open: false, message: 'Quiz period has ended.' };
-    
-    if (track === 'javascript') {
-        const start = 18 * 60;
-        const end = 19 * 60;
-        if (currentTime < start) return { open: false, message: 'JavaScript quiz opens at 6:00 PM (18:00) on 31/08/2026.' };
-        if (currentTime >= end) return { open: false, message: 'JavaScript quiz closed at 7:00 PM (19:00).' };
-        return { open: true };
-    }
-    
-    if (track === 'python') {
-        const start = 8 * 60;
-        const end = 9 * 60;
-        if (currentTime < start) return { open: false, message: 'Python quiz opens at 8:00 AM on 31/08/2026.' };
-        if (currentTime >= end) return { open: false, message: 'Python quiz closed at 9:00 AM.' };
-        return { open: true };
-    }
-    
-    return { open: false, message: 'Invalid track selected.' };
-}
 
 document.getElementById('registration-form').addEventListener('submit', function(e) {
     e.preventDefault();
@@ -162,13 +114,6 @@ document.getElementById('registration-form').addEventListener('submit', function
         showCustomAlert('Missing Fields', 'Please fill in all fields.', 'warning', null);
         return;
     }
-    
-    // Time validation - DISABLED for testing, re-enable before going live
-    // const quizStatus = isQuizOpen(track);
-    // if (!quizStatus.open) {
-    //     alert(quizStatus.message);
-    //     return;
-    // }
     
     const emailRegex = /^[a-zA-Z0-9._%+-]+@(?:refactory\.academy|student\.refactory\.academy)(\.[a-z]+)?$/;
     if (!emailRegex.test(email)) {
@@ -396,6 +341,7 @@ function doSubmitQuiz() {
         answers: userAnswers,
         questionTimes: questionTimes,
         date: new Date().toISOString(),
+        startTime: new Date(quizStartTime).toISOString(),
         aiUsage: detectAIUsage()
     };
     
@@ -449,6 +395,12 @@ function displayResults(result) {
     document.getElementById('correct-count').textContent = result.score;
     document.getElementById('wrong-count').textContent = result.total - result.score;
     document.getElementById('time-taken').textContent = result.timeTaken;
+    
+    const resultDate = new Date(result.date);
+    document.getElementById('result-date').textContent = resultDate.toLocaleDateString('en-GB', { day: '2-digit', month: '2-digit', year: 'numeric' });
+    
+    const startTime = result.startTime ? new Date(result.startTime) : resultDate;
+    document.getElementById('result-start-time').textContent = startTime.toLocaleTimeString('en-GB', { hour: '2-digit', minute: '2-digit' });
     
     document.getElementById('ai-status-text').textContent = result.aiUsage;
     
@@ -703,14 +655,15 @@ function showAdminLogin() {
 
 function adminLogin(e) {
     e.preventDefault();
+    const email = document.getElementById('admin-email').value;
     const password = document.getElementById('admin-password').value;
     const errorEl = document.getElementById('admin-error');
     
-    if (password === ADMIN_PASSWORD) {
+    if (password === ADMIN_PASSWORD && email === ADMIN_EMAIL) {
         closeModal();
         showAdminDashboard();
     } else {
-        errorEl.textContent = 'Invalid password';
+        errorEl.textContent = 'Invalid email or password';
     }
 }
 
@@ -736,7 +689,7 @@ function displayResultsTable(results) {
     tbody.innerHTML = '';
     
     if (results.length === 0) {
-        tbody.innerHTML = '<tr><td colspan="9" style="text-align:center; padding:30px;">No results yet</td></tr>';
+        tbody.innerHTML = '<tr><td colspan="10" style="text-align:center; padding:30px;">No results yet</td></tr>';
         return;
     }
     
@@ -745,6 +698,7 @@ function displayResultsTable(results) {
     results.forEach((result, index) => {
         const row = document.createElement('tr');
         const date = new Date(result.date);
+        const startTime = result.startTime ? new Date(result.startTime) : null;
         row.innerHTML = `
             <td>${index + 1}</td>
             <td>${result.fullname}</td>
@@ -752,9 +706,10 @@ function displayResultsTable(results) {
             <td><span class="track-label py">${result.track}</span></td>
             <td>${result.score}/${result.total}</td>
             <td>${result.percentage}%</td>
+            <td>${startTime ? startTime.toLocaleTimeString('en-GB', {hour:'2-digit', minute:'2-digit'}) : '-'}</td>
             <td>${result.timeTaken}</td>
             <td>${result.warnings || 0}</td>
-            <td>${date.toLocaleDateString()} ${date.toLocaleTimeString()}</td>
+            <td>${date.toLocaleDateString('en-GB', {day:'2-digit',month:'2-digit',year:'numeric'})}</td>
         `;
         tbody.appendChild(row);
     });
