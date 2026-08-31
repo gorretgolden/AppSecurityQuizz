@@ -72,28 +72,19 @@ function clearFormDraft() {
 }
 
 function updateScheduleStatus() {
-    const jsStatus = document.getElementById('js-status');
-    const pyStatus = document.getElementById('py-status');
-    
-    if (!jsStatus || !pyStatus) return;
-    
-    const jsResult = isQuizOpen('javascript');
-    const pyResult = isQuizOpen('python');
-    
-    if (jsResult.open) {
-        jsStatus.textContent = 'Open Now';
-        jsStatus.className = 'quiz-status open';
-    } else {
-        jsStatus.textContent = 'Closed';
-        jsStatus.className = 'quiz-status closed';
-    }
-    
-    if (pyResult.open) {
-        pyStatus.textContent = 'Open Now';
-        pyStatus.className = 'quiz-status open';
-    } else {
-        pyStatus.textContent = 'Closed';
-        pyStatus.className = 'quiz-status closed';
+    // Time restrictions removed for testing - track always enabled
+    const trackSelect = document.getElementById('track');
+    if (trackSelect) {
+        const jsOption = trackSelect.querySelector('option[value="javascript"]');
+        const pyOption = trackSelect.querySelector('option[value="python"]');
+        if (jsOption) {
+            jsOption.disabled = false;
+            jsOption.textContent = 'JavaScript Track';
+        }
+        if (pyOption) {
+            pyOption.disabled = false;
+            pyOption.textContent = 'Python Track';
+        }
     }
 }
 
