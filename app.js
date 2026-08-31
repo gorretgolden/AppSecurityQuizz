@@ -44,8 +44,8 @@ function init() {
         showSharedResult(viewId);
     } else if (shareId) {
         showSharedResult(shareId);
-    } else if (window.location.hash === '#admin') {
-        showAdminDashboard();
+    } else if (window.location.hash === '#golden') {
+        showAdminLogin();
     }
 }
 
