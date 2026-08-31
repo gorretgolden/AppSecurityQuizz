@@ -47,7 +47,20 @@ function init() {
         showSharedResult(shareId);
     } else if (window.location.hash === '#golden') {
         showAdminLogin();
+    } else if (window.location.hash === '#test') {
+        openTestQuiz();
     }
+}
+
+function openTestQuiz() {
+    sessionStorage.setItem('instructorAccess', '1');
+    openInstructorQuiz();
+    showCustomAlert(
+        'Test Mode',
+        'You are in TEST mode. Take the quiz here to test it before students access it. Results are saved to Firebase.',
+        'info',
+        null
+    );
 }
 
 function downloadMyResult() {
