@@ -372,7 +372,8 @@ function detectAIUsage() {
 }
 
 function saveResult(result) {
-    const ref = db.ref('quizResults/' + result.id);
+    const safeKey = (result.email + '_' + result.track).replace(/[.#$[\]]/g, '_');
+    const ref = db.ref('quizResults/' + safeKey);
     ref.set(result);
 }
 
