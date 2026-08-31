@@ -171,12 +171,8 @@
                     <p id="ai-status-text">AI assistance was not detected during this quiz.</p>
                 </div>
                 
-                <div class="suspicious-activity" id="suspicious-activity" style="display:none;">
-                    <h3><i class="fas fa-exclamation-triangle"></i> Suspicious Activity Report</h3>
-                    <div id="activity-log"></div>
-                </div>
-                
-                <button class="btn-primary" onclick="location.reload()"><i class="fas fa-home"></i> Back to Home</button>
+                <div class="result-actions">
+                    <button class="btn-primary" onclick="location.reload()"><i class="fas fa-home"></i> Back to Home</button>
             </div>
         </div>
     </div>
@@ -198,14 +194,20 @@
                     </select>
                     <input type="text" id="search-student" placeholder="Search by name..." oninput="filterResults()">
                 </div>
-                <div class="admin-actions">
+<div class="admin-actions">
                     <button class="btn-export" onclick="exportToExcel()"><i class="fas fa-file-excel"></i> Export to Excel</button>
                     <button class="btn-export" onclick="printAllResults()"><i class="fas fa-print"></i> Print All</button>
                     <button class="btn-export btn-danger" onclick="clearAllResults()"><i class="fas fa-trash"></i> Clear All</button>
                 </div>
-            </div>
-            
-            <div class="results-summary">
+                
+                <div class="proctor-report" id="instructor-proctor-report" style="margin-top:20px; display:none;">
+                    <h3><i class="fas fa-shield-alt"></i> Proctor Report</h2>
+                    <p>Total warnings across all students: <span id="total-warnings">0</span></p>
+                    <p>Students with violations: <span id="students-with-violations">0</span></p>
+                    <button class="btn-secondary" onclick="toggleProctorReport()">Hide Proctor Report</button>
+                </div>
+                
+                <div class="results-summary">
                 <div class="summary-item">
                     <span class="summary-label">Total Students</span>
                     <span class="summary-value" id="total-students">0</span>

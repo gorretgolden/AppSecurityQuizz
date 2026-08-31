@@ -511,6 +511,28 @@ function closeModal() {
     document.getElementById('admin-login-modal').style.display = 'none';
 }
 
+function toggleProctorReport() {
+    const report = document.getElementById('instructor-proctor-report');
+    if (report.style.display === 'none') {
+        report.style.display = 'block';
+        // Calculate warnings from all stored results
+        const allResults = JSON.parse(localStorage.getItem('quizResults') || '[]');
+        let totalWarnings = 0;
+        let studentsWithViolations = 0;
+        allResults.forEach(result => {
+            if (result.warnings && result.warnings > 0) {
+                totalWarnings += result.warnings;
+                studentsWithViolations++;
+            }
+        });
+        document.getElementById('total-warnings').textContent = totalWarnings;
+        document.getElementById('students-with-violations').textContent = studentsWithViolations;
+        report.style.display = 'block';
+    } else {
+        report.style.display = 'none';
+    }
+}
+
 let customAlertCallback = null;
 let countdownInterval = null;
 
@@ -672,6 +694,7 @@ function loadAdminResults() {
     const results = JSON.parse(localStorage.getItem('quizResults') || '[]');
     displayResultsTable(results);
     updateSummary(results);
+    updateProctorReport(results);
 }
 
 function displayResultsTable(results) {
@@ -712,6 +735,20 @@ function updateSummary(results) {
         
         document.getElementById('avg-score').textContent = `${avgScore}%`;
         document.getElementById('highest-score').textContent = `${highestScore}%`;
+    }
+}
+
+function updateProctorReport(results) {
+    const totalWarnings = results.reduce((sum, r) => sum + (r.warnings || 0), 0);
+    const studentsWithViolations = results.filter(r => (r.warnings || 0) > 0).length;
+    
+    document.getElementById('total-warnings').textContent = totalWarnings;
+    document.getElementById('students-with-violations').textContent = studentsWithViolations;
+    
+    // Show the proctor report if there are violations
+    const proctorReport = document.getElementById('instructor-proctor-report');
+    if (totalWarnings > 0) {
+        report.style.display = 'block';
     }
 }
 
