@@ -66,6 +66,14 @@
                 </form>
             </div>
             
+            <div id="download-result-section" style="display:none; margin-top:20px; text-align:center;">
+                <div class="card" style="background:#1a3a2a; border:1px solid #4caf50;">
+                    <h3><i class="fas fa-download"></i> Already took the quiz?</h3>
+                    <p>Download your result sheet to send to your instructor.</p>
+                    <button class="btn-primary" onclick="downloadMyResult()" style="background:#4caf50;"><i class="fas fa-file-download"></i> Download My Result</button>
+                </div>
+            </div>
+
             <a href="#" class="admin-link" onclick="showAdminLogin()" style="display:none;"><i class="fas fa-chalkboard-teacher"></i> Instructor Dashboard</a>
         </div>
     </div>
@@ -301,6 +309,21 @@
         </div>
     </div>
 
+    <script src="https://www.gstatic.com/firebasejs/10.12.0/firebase-app-compat.js"></script>
+    <script src="https://www.gstatic.com/firebasejs/10.12.0/firebase-database-compat.js"></script>
+    <script>
+        const firebaseConfig = {
+            apiKey: "AIzaSyCN52Pt1xwSjyA9JyCadGsUIJgpZOJcvCI",
+            authDomain: "app-security-quiz.firebaseapp.com",
+            databaseURL: "https://app-security-quiz-default-rtdb.firebaseio.com",
+            projectId: "app-security-quiz",
+            storageBucket: "app-security-quiz.firebasestorage.app",
+            messagingSenderId: "323723076626",
+            appId: "1:323723076626:web:9c652b35ae6fec6868e4cb"
+        };
+        firebase.initializeApp(firebaseConfig);
+        const db = firebase.database();
+    </script>
     <script src="questions.js"></script>
     <script src="app.js"></script>
 </body>

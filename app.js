@@ -47,6 +47,33 @@ function init() {
     } else if (window.location.hash === '#admin') {
         showAdminDashboard();
     }
+    
+    const adminLink = document.querySelector('.admin-link');
+    if (adminLink) adminLink.style.display = 'inline-block';
+}
+
+function downloadMyResult() {
+    db.ref('quizResults').once('value', function(snapshot) {
+        const results = [];
+        snapshot.forEach(function(child) {
+            results.push(child.val());
+        });
+        if (results.length === 0) {
+            showCustomAlert('No Results', 'No quiz results found. You may need to retake the quiz.', 'info', null);
+            return;
+        }
+        let csv = 'Name,Email,Track,Score,Total,Percentage,Time Taken,Warnings,Date\n';
+        results.forEach(result => {
+            const date = new Date(result.date).toLocaleString();
+            csv += `"${result.fullname}","${result.email}","${result.track}",${result.score},${result.total},${result.percentage}%,"${result.timeTaken}",${result.warnings || 0},"${date}"\n`;
+        });
+        const blob = new Blob([csv], { type: 'text/csv;charset=utf-8;' });
+        const link = document.createElement('a');
+        link.href = URL.createObjectURL(blob);
+        link.download = 'my_quiz_result.csv';
+        link.click();
+        showCustomAlert('Downloaded', 'Your result has been downloaded. Send the file to your instructor.', 'success', null);
+    });
 }
 
 function saveFormDraft() {
@@ -149,46 +176,56 @@ document.getElementById('registration-form').addEventListener('submit', function
         return;
     }
     
-    const existingResults = JSON.parse(localStorage.getItem('quizResults') || '[]');
+    const submitBtn = document.querySelector('#registration-form button[type="submit"]');
+    submitBtn.disabled = true;
+    submitBtn.innerHTML = '<i class="fas fa-spinner fa-spin"></i> Checking...';
     
-    const duplicate = existingResults.find(r => 
-        r.email.toLowerCase() === email && 
-        r.fullname.toLowerCase() === fullname.toLowerCase() && 
-        r.track === track
-    );
-    if (duplicate) {
-        showCustomAlert('Duplicate Detected', 'This student with this name and email has already taken this quiz in this track. Each student can only take the quiz once.', 'danger', null);
-        return;
-    }
-    
-    currentTrack = track;
-    const rawQuestions = pythonQuestions;
-    questions = shuffleQuestions(JSON.parse(JSON.stringify(rawQuestions)));
-    userAnswers = new Array(questions.length).fill(null);
-    currentQuestion = 0;
-    warningCount = 0;
-    quizSubmitted = false;
-    questionTimes = [];
-    clearFormDraft();
-    
-    currentStudent = { fullname, email, track };
-    
-    document.getElementById('student-name').textContent = fullname;
-    const badge = document.getElementById('track-badge');
-    badge.textContent = 'Python Track';
-    badge.className = 'track-label py';
-    
-    const watermarkEl = document.getElementById('watermark-overlay');
-    const watermarkText = (fullname + ' • ' + email + ' • ').repeat(200);
-    watermarkEl.textContent = watermarkText;
-    
-    showPage('quiz-page');
-    
-    quizStartTime = Date.now();
-    questionStartTime = Date.now();
-    startTimer();
-    loadQuestion();
-    enableAntiCheat();
+    db.ref('quizResults').orderByChild('email').equalTo(email).once('value', function(snapshot) {
+        let duplicate = false;
+        snapshot.forEach(function(child) {
+            const r = child.val();
+            if (r.fullname && r.fullname.toLowerCase() === fullname.toLowerCase() && r.track === track) {
+                duplicate = true;
+            }
+        });
+        
+        submitBtn.disabled = false;
+        submitBtn.innerHTML = '<i class="fas fa-play"></i> Register & Start Quiz';
+        
+        if (duplicate) {
+            showCustomAlert('Duplicate Detected', 'This student with this name and email has already taken this quiz in this track. Each student can only take the quiz once.', 'danger', null);
+            return;
+        }
+        
+        currentTrack = track;
+        const rawQuestions = pythonQuestions;
+        questions = shuffleQuestions(JSON.parse(JSON.stringify(rawQuestions)));
+        userAnswers = new Array(questions.length).fill(null);
+        currentQuestion = 0;
+        warningCount = 0;
+        quizSubmitted = false;
+        questionTimes = [];
+        clearFormDraft();
+        
+        currentStudent = { fullname, email, track };
+        
+        document.getElementById('student-name').textContent = fullname;
+        const badge = document.getElementById('track-badge');
+        badge.textContent = 'Python Track';
+        badge.className = 'track-label py';
+        
+        const watermarkEl = document.getElementById('watermark-overlay');
+        const watermarkText = (fullname + ' • ' + email + ' • ').repeat(200);
+        watermarkEl.textContent = watermarkText;
+        
+        showPage('quiz-page');
+        
+        quizStartTime = Date.now();
+        questionStartTime = Date.now();
+        startTimer();
+        loadQuestion();
+        enableAntiCheat();
+    });
 });
 
 function showPage(pageId) {
@@ -363,6 +400,7 @@ function doSubmitQuiz() {
     };
     
     saveResult(result);
+    currentStudent.id = result.id;
     displayResults(result);
 }
 
@@ -381,16 +419,8 @@ function detectAIUsage() {
 }
 
 function saveResult(result) {
-    const results = JSON.parse(localStorage.getItem('quizResults') || '[]');
-    
-    const existingIndex = results.findIndex(r => r.email === result.email && r.track === result.track);
-    if (existingIndex >= 0) {
-        results[existingIndex] = result;
-    } else {
-        results.push(result);
-    }
-    
-    localStorage.setItem('quizResults', JSON.stringify(results));
+    const ref = db.ref('quizResults/' + result.id);
+    ref.set(result);
 }
 
 function displayResults(result) {
@@ -513,21 +543,21 @@ function closeModal() {
 
 function toggleProctorReport() {
     const report = document.getElementById('instructor-proctor-report');
-    if (report.style.display === 'none') {
-        report.style.display = 'block';
-        // Calculate warnings from all stored results
-        const allResults = JSON.parse(localStorage.getItem('quizResults') || '[]');
-        let totalWarnings = 0;
-        let studentsWithViolations = 0;
-        allResults.forEach(result => {
-            if (result.warnings && result.warnings > 0) {
-                totalWarnings += result.warnings;
-                studentsWithViolations++;
-            }
+    if (report.style.display === 'none' || report.style.display === '') {
+        db.ref('quizResults').once('value', function(snapshot) {
+            let totalWarnings = 0;
+            let studentsWithViolations = 0;
+            snapshot.forEach(function(child) {
+                const result = child.val();
+                if (result.warnings && result.warnings > 0) {
+                    totalWarnings += result.warnings;
+                    studentsWithViolations++;
+                }
+            });
+            document.getElementById('total-warnings').textContent = totalWarnings;
+            document.getElementById('students-with-violations').textContent = studentsWithViolations;
+            report.style.display = 'block';
         });
-        document.getElementById('total-warnings').textContent = totalWarnings;
-        document.getElementById('students-with-violations').textContent = studentsWithViolations;
-        report.style.display = 'block';
     } else {
         report.style.display = 'none';
     }
@@ -634,8 +664,7 @@ function printResults() {
 
 function shareResults() {
     const params = new URLSearchParams(window.location.search);
-    const resultId = params.get('view') || params.get('share') || 
-        JSON.parse(localStorage.getItem('quizResults') || '[]').slice(-1)[0]?.id;
+    const resultId = params.get('view') || params.get('share') || currentStudent?.id;
     
     if (resultId) {
         const shareUrl = `${window.location.origin}${window.location.pathname}?share=${resultId}`;
@@ -656,16 +685,16 @@ function closeShareModal() {
 }
 
 function showSharedResult(resultId) {
-    const results = JSON.parse(localStorage.getItem('quizResults') || '[]');
-    const result = results.find(r => r.id === resultId);
-    
-    if (result) {
-        currentStudent = { fullname: result.fullname, email: result.email, track: result.track };
-        displayResults(result);
-    } else {
-        showCustomAlert('Not Found', 'Result not found.', 'warning', null);
-        showPage('registration-page');
-    }
+    db.ref('quizResults/' + resultId).once('value', function(snapshot) {
+        const result = snapshot.val();
+        if (result) {
+            currentStudent = { fullname: result.fullname, email: result.email, track: result.track };
+            displayResults(result);
+        } else {
+            showCustomAlert('Not Found', 'Result not found.', 'warning', null);
+            showPage('registration-page');
+        }
+    });
 }
 
 function showAdminLogin() {
@@ -691,10 +720,15 @@ function showAdminDashboard() {
 }
 
 function loadAdminResults() {
-    const results = JSON.parse(localStorage.getItem('quizResults') || '[]');
-    displayResultsTable(results);
-    updateSummary(results);
-    updateProctorReport(results);
+    db.ref('quizResults').once('value', function(snapshot) {
+        const results = [];
+        snapshot.forEach(function(child) {
+            results.push(child.val());
+        });
+        displayResultsTable(results);
+        updateSummary(results);
+        updateProctorReport(results);
+    });
 }
 
 function displayResultsTable(results) {
@@ -757,107 +791,122 @@ function filterResults() {
     const trackFilter = document.getElementById('filter-track').value;
     const searchQuery = document.getElementById('search-student').value.toLowerCase();
     
-    let results = JSON.parse(localStorage.getItem('quizResults') || '[]');
-    
-    if (trackFilter !== 'all') {
-        results = results.filter(r => r.track === trackFilter);
-    }
-    
-    if (searchQuery) {
-        results = results.filter(r => 
-            r.fullname.toLowerCase().includes(searchQuery) || 
-            r.email.toLowerCase().includes(searchQuery)
-        );
-    }
-    
-    displayResultsTable(results);
-    updateSummary(results);
+    db.ref('quizResults').once('value', function(snapshot) {
+        let results = [];
+        snapshot.forEach(function(child) {
+            results.push(child.val());
+        });
+        
+        if (trackFilter !== 'all') {
+            results = results.filter(r => r.track === trackFilter);
+        }
+        
+        if (searchQuery) {
+            results = results.filter(r => 
+                r.fullname.toLowerCase().includes(searchQuery) || 
+                r.email.toLowerCase().includes(searchQuery)
+            );
+        }
+        
+        displayResultsTable(results);
+        updateSummary(results);
+    });
 }
 
 function exportToExcel() {
-    const results = JSON.parse(localStorage.getItem('quizResults') || '[]');
-    
-    if (results.length === 0) {
-        showCustomAlert('No Data', 'No results to export.', 'info', null);
-        return;
-    }
-    
-    let csv = 'Name,Email,Track,Score,Total,Percentage,Time Taken,Warnings,Date\n';
-    
-    results.forEach(result => {
-        const date = new Date(result.date).toLocaleString();
-        csv += `"${result.fullname}","${result.email}","${result.track}",${result.score},${result.total},${result.percentage}%,"${result.timeTaken}",${result.warnings || 0},"${date}"\n`;
+    db.ref('quizResults').once('value', function(snapshot) {
+        const results = [];
+        snapshot.forEach(function(child) {
+            results.push(child.val());
+        });
+        
+        if (results.length === 0) {
+            showCustomAlert('No Data', 'No results to export.', 'info', null);
+            return;
+        }
+        
+        let csv = 'Name,Email,Track,Score,Total,Percentage,Time Taken,Warnings,Date\n';
+        
+        results.forEach(result => {
+            const date = new Date(result.date).toLocaleString();
+            csv += `"${result.fullname}","${result.email}","${result.track}",${result.score},${result.total},${result.percentage}%,"${result.timeTaken}",${result.warnings || 0},"${date}"\n`;
+        });
+        
+        const blob = new Blob([csv], { type: 'text/csv;charset=utf-8;' });
+        const link = document.createElement('a');
+        link.href = URL.createObjectURL(blob);
+        link.download = `quiz_results_${new Date().toISOString().split('T')[0]}.csv`;
+        link.click();
     });
-    
-    const blob = new Blob([csv], { type: 'text/csv;charset=utf-8;' });
-    const link = document.createElement('a');
-    link.href = URL.createObjectURL(blob);
-    link.download = `quiz_results_${new Date().toISOString().split('T')[0]}.csv`;
-    link.click();
 }
 
 function printAllResults() {
-    const results = JSON.parse(localStorage.getItem('quizResults') || '[]');
-    
-    if (results.length === 0) {
-        showCustomAlert('No Data', 'No results to print.', 'info', null);
-        return;
-    }
-    
-    let printContent = `
-        <html>
-        <head>
-            <title>Quiz Results - Refactory Academy</title>
-            <style>
-                body { font-family: Arial, sans-serif; padding: 20px; }
-                h1 { text-align: center; color: #333; }
-                table { width: 100%; border-collapse: collapse; margin-top: 20px; }
-                th, td { border: 1px solid #ddd; padding: 10px; text-align: left; }
-                th { background: #f4f4f4; }
-                .summary { display: flex; justify-content: space-around; margin: 20px 0; }
-                .summary-item { text-align: center; }
-                .summary-value { font-size: 24px; font-weight: bold; color: #7c3aed; }
-            </style>
-        </head>
-        <body>
-            <h1>Quiz Results - Refactory Academy</h1>
-            <p style="text-align:center;">Generated on ${new Date().toLocaleString()}</p>
-            <div class="summary">
-                <div class="summary-item">
-                    <div>Total Students: ${results.length}</div>
+    db.ref('quizResults').once('value', function(snapshot) {
+        const results = [];
+        snapshot.forEach(function(child) {
+            results.push(child.val());
+        });
+        
+        if (results.length === 0) {
+            showCustomAlert('No Data', 'No results to print.', 'info', null);
+            return;
+        }
+        
+        let printContent = `
+            <html>
+            <head>
+                <title>Quiz Results - Refactory Academy</title>
+                <style>
+                    body { font-family: Arial, sans-serif; padding: 20px; }
+                    h1 { text-align: center; color: #333; }
+                    table { width: 100%; border-collapse: collapse; margin-top: 20px; }
+                    th, td { border: 1px solid #ddd; padding: 10px; text-align: left; }
+                    th { background: #f4f4f4; }
+                    .summary { display: flex; justify-content: space-around; margin: 20px 0; }
+                    .summary-item { text-align: center; }
+                    .summary-value { font-size: 24px; font-weight: bold; color: #7c3aed; }
+                </style>
+            </head>
+            <body>
+                <h1>Quiz Results - Refactory Academy</h1>
+                <p style="text-align:center;">Generated on ${new Date().toLocaleString()}</p>
+                <div class="summary">
+                    <div class="summary-item">
+                        <div>Total Students: ${results.length}</div>
+                    </div>
+                    <div class="summary-item">
+                        <div>Average Score: ${Math.round(results.reduce((s, r) => s + r.percentage, 0) / results.length)}%</div>
+                    </div>
+                    <div class="summary-item">
+                        <div>Highest Score: ${Math.max(...results.map(r => r.percentage))}%</div>
+                    </div>
                 </div>
-                <div class="summary-item">
-                    <div>Average Score: ${Math.round(results.reduce((s, r) => s + r.percentage, 0) / results.length)}%</div>
-                </div>
-                <div class="summary-item">
-                    <div>Highest Score: ${Math.max(...results.map(r => r.percentage))}%</div>
-                </div>
-            </div>
-            <table>
-                <tr>
-                    <th>#</th><th>Name</th><th>Email</th><th>Track</th>
-                    <th>Score</th><th>%</th><th>Time</th><th>Warnings</th><th>Date</th>
-                </tr>`;
-    
-    results.forEach((r, i) => {
+                <table>
+                    <tr>
+                        <th>#</th><th>Name</th><th>Email</th><th>Track</th>
+                        <th>Score</th><th>%</th><th>Time</th><th>Warnings</th><th>Date</th>
+                    </tr>`;
+        
+        results.forEach((r, i) => {
+            printContent += `
+                    <tr>
+                        <td>${i+1}</td><td>${r.fullname}</td><td>${r.email}</td>
+                        <td>${r.track}</td><td>${r.score}/${r.total}</td><td>${r.percentage}%</td>
+                        <td>${r.timeTaken}</td><td>${r.warnings || 0}</td>
+                        <td>${new Date(r.date).toLocaleString()}</td>
+                    </tr>`;
+        });
+        
         printContent += `
-                <tr>
-                    <td>${i+1}</td><td>${r.fullname}</td><td>${r.email}</td>
-                    <td>${r.track}</td><td>${r.score}/${r.total}</td><td>${r.percentage}%</td>
-                    <td>${r.timeTaken}</td><td>${r.warnings || 0}</td>
-                    <td>${new Date(r.date).toLocaleString()}</td>
-                </tr>`;
+                </table>
+            </body>
+            </html>`;
+        
+        const printWindow = window.open('', '_blank');
+        printWindow.document.write(printContent);
+        printWindow.document.close();
+        printWindow.print();
     });
-    
-    printContent += `
-            </table>
-        </body>
-        </html>`;
-    
-    const printWindow = window.open('', '_blank');
-    printWindow.document.write(printContent);
-    printWindow.document.close();
-    printWindow.print();
 }
 
 function clearAllResults() {
@@ -871,9 +920,10 @@ function clearAllResults() {
                 text: 'Delete All',
                 class: 'btn-danger-alert',
                 action: function() {
-                    localStorage.removeItem('quizResults');
-                    loadAdminResults();
-                    showCustomAlert('Done', 'All results have been cleared.', 'success', null);
+                    db.ref('quizResults').remove().then(function() {
+                        loadAdminResults();
+                        showCustomAlert('Done', 'All results have been cleared.', 'success', null);
+                    });
                 }
             }
         ]
