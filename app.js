@@ -85,9 +85,12 @@ function saveFormDraft() {
 function loadFormDraft() {
     const draft = JSON.parse(localStorage.getItem('quizDraft') || 'null');
     if (draft) {
-        document.getElementById('fullname').value = draft.fullname || '';
-        document.getElementById('email').value = draft.email || '';
-        document.getElementById('track').value = draft.track || '';
+        const fn = document.getElementById('fullname');
+        const em = document.getElementById('email');
+        const tr = document.getElementById('track');
+        if (fn) fn.value = draft.fullname || '';
+        if (em) em.value = draft.email || '';
+        if (tr) tr.value = draft.track || '';
     }
 }
 
@@ -95,11 +98,15 @@ function clearFormDraft() {
     localStorage.removeItem('quizDraft');
 }
 
-document.getElementById('fullname').addEventListener('input', saveFormDraft);
-document.getElementById('email').addEventListener('input', saveFormDraft);
-document.getElementById('track').addEventListener('change', saveFormDraft);
+const _fn = document.getElementById('fullname');
+const _em = document.getElementById('email');
+const _tr = document.getElementById('track');
+const _regForm = document.getElementById('registration-form');
+if (_fn) _fn.addEventListener('input', saveFormDraft);
+if (_em) _em.addEventListener('input', saveFormDraft);
+if (_tr) _tr.addEventListener('change', saveFormDraft);
 
-document.getElementById('registration-form').addEventListener('submit', function(e) {
+if (_regForm) _regForm.addEventListener('submit', function(e) {
     e.preventDefault();
     window.scrollTo(0, 0);
     
