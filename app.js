@@ -49,6 +49,14 @@ function init() {
     }
 }
 
+function showAdminLogin() {
+    const modal = document.getElementById('admin-login-modal');
+    if (modal) {
+        modal.style.display = 'flex';
+        modal.style.zIndex = '9999';
+    }
+}
+
 function downloadMyResult() {
     db.ref('quizResults').once('value', function(snapshot) {
         const results = [];
@@ -654,10 +662,6 @@ function showSharedResult(resultId) {
             showPage('registration-page');
         }
     });
-}
-
-function showAdminLogin() {
-    document.getElementById('admin-login-modal').style.display = 'flex';
 }
 
 function adminLogin(e) {
