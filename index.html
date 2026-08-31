@@ -16,9 +16,25 @@
                 <p class="subtitle">Refactory Academy - OAS Bay</p>
             </div>
             
-            <div class="card" style="text-align:center; padding:40px;">
+            <div class="card" id="quiz-unavailable" style="text-align:center; padding:40px;">
                 <h2><i class="fas fa-clock"></i> Quiz Not Available</h2>
                 <p class="info">The quiz is not currently active. Please wait for further instructions from your instructor.</p>
+            </div>
+
+            <div class="card" id="admin-login-card" style="display:none; text-align:center; padding:40px;">
+                <h2><i class="fas fa-lock"></i> Instructor Login</h2>
+                <form onsubmit="adminLogin(event)">
+                    <div class="form-group">
+                        <label for="admin-email"><i class="fas fa-envelope"></i> Email</label>
+                        <input type="email" id="admin-email" placeholder="Enter instructor email" required>
+                    </div>
+                    <div class="form-group">
+                        <label for="admin-password"><i class="fas fa-key"></i> Password</label>
+                        <input type="password" id="admin-password" placeholder="Enter instructor password" required>
+                        <small class="error-text" id="admin-error"></small>
+                    </div>
+                    <button type="submit" class="btn-primary"><i class="fas fa-sign-in-alt"></i> Login</button>
+                </form>
             </div>
             
             <div id="download-result-section" style="display:none; margin-top:20px; text-align:center;">
@@ -239,7 +255,10 @@
 
     <script>
         if (window.location.hash === '#golden') {
-            document.getElementById('admin-login-modal').style.display = 'flex';
+            var q = document.getElementById('quiz-unavailable');
+            var a = document.getElementById('admin-login-card');
+            if (q) q.style.display = 'none';
+            if (a) a.style.display = 'block';
         }
     </script>
 

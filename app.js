@@ -50,11 +50,10 @@ function init() {
 }
 
 function showAdminLogin() {
-    const modal = document.getElementById('admin-login-modal');
-    if (modal) {
-        modal.style.display = 'flex';
-        modal.style.zIndex = '9999';
-    }
+    const q = document.getElementById('quiz-unavailable');
+    const a = document.getElementById('admin-login-card');
+    if (q) q.style.display = 'none';
+    if (a) a.style.display = 'block';
 }
 
 function downloadMyResult() {
@@ -671,7 +670,6 @@ function adminLogin(e) {
     const errorEl = document.getElementById('admin-error');
     
     if (password === ADMIN_PASSWORD && email === ADMIN_EMAIL) {
-        closeModal();
         showAdminDashboard();
     } else {
         errorEl.textContent = 'Invalid email or password';
