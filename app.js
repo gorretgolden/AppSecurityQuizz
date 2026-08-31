@@ -12,6 +12,7 @@ let currentStudent = null;
 let questionStartTime = 0;
 let questionTimes = [];
 let timeUsedInterval;
+let pendingLeaveWarning = '';
 const ADMIN_PASSWORD = 'refactory2024';
 const ADMIN_EMAIL = 'gorretgolden@refactory.academy';
 
@@ -413,8 +414,6 @@ function displayResults(result) {
     const startTime = result.startTime ? new Date(result.startTime) : resultDate;
     document.getElementById('result-start-time').textContent = startTime.toLocaleTimeString('en-GB', { hour: '2-digit', minute: '2-digit' });
     
-    document.getElementById('ai-status-text').textContent = result.aiUsage;
-    
     showPage('results-page');
 }
 
@@ -453,13 +452,31 @@ function enableAntiCheat() {
     
     document.addEventListener('visibilitychange', function() {
         if (document.hidden) {
-            showWarning('Tab switching is not allowed during the quiz.');
+            pendingLeaveWarning = 'Tab switching is not allowed during the quiz.';
+        } else {
+            flushLeaveWarning();
         }
     });
-    
+
     window.addEventListener('blur', function() {
-        showWarning('Switching windows is not allowed during the quiz.');
+        pendingLeaveWarning = 'Switching windows is not allowed during the quiz.';
     });
+
+    window.addEventListener('focus', flushLeaveWarning);
+    window.addEventListener('beforeunload', function(e) {
+        if (!quizSubmitted) {
+            e.preventDefault();
+            e.returnValue = '';
+        }
+    });
+}
+
+function flushLeaveWarning() {
+    if (pendingLeaveWarning && !document.hidden) {
+        const message = pendingLeaveWarning;
+        pendingLeaveWarning = '';
+        showWarning(message);
+    }
 }
 
 function showWarning(message) {
