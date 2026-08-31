@@ -72,15 +72,10 @@ function clearFormDraft() {
 }
 
 function updateScheduleStatus() {
-    // Time restrictions removed for testing - track always enabled
+    // Python track only - always enabled
     const trackSelect = document.getElementById('track');
     if (trackSelect) {
-        const jsOption = trackSelect.querySelector('option[value="javascript"]');
         const pyOption = trackSelect.querySelector('option[value="python"]');
-        if (jsOption) {
-            jsOption.disabled = false;
-            jsOption.textContent = 'JavaScript Track';
-        }
         if (pyOption) {
             pyOption.disabled = false;
             pyOption.textContent = 'Python Track';
@@ -167,7 +162,7 @@ document.getElementById('registration-form').addEventListener('submit', function
     }
     
     currentTrack = track;
-    const rawQuestions = track === 'javascript' ? javascriptQuestions : pythonQuestions;
+    const rawQuestions = pythonQuestions;
     questions = shuffleQuestions(JSON.parse(JSON.stringify(rawQuestions)));
     userAnswers = new Array(questions.length).fill(null);
     currentQuestion = 0;
@@ -180,8 +175,8 @@ document.getElementById('registration-form').addEventListener('submit', function
     
     document.getElementById('student-name').textContent = fullname;
     const badge = document.getElementById('track-badge');
-    badge.textContent = track === 'javascript' ? 'JavaScript Track' : 'Python Track';
-    badge.className = track === 'javascript' ? 'track-label js' : 'track-label py';
+    badge.textContent = 'Python Track';
+    badge.className = 'track-label py';
     
     const watermarkEl = document.getElementById('watermark-overlay');
     const watermarkText = (fullname + ' • ' + email + ' • ').repeat(200);
@@ -697,7 +692,7 @@ function displayResultsTable(results) {
             <td>${index + 1}</td>
             <td>${result.fullname}</td>
             <td>${result.email}</td>
-            <td><span class="track-label ${result.track === 'javascript' ? 'js' : 'py'}">${result.track}</span></td>
+            <td><span class="track-label py">${result.track}</span></td>
             <td>${result.score}/${result.total}</td>
             <td>${result.percentage}%</td>
             <td>${result.timeTaken}</td>
