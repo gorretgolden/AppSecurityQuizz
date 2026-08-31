@@ -143,7 +143,7 @@ document.getElementById('registration-form').addEventListener('submit', function
     //     return;
     // }
     
-    const emailRegex = /^[a-zA-Z0-9._%+-]+@refactory\.academy$/;
+    const emailRegex = /^[a-zA-Z0-9._%+-]+@(?:refactory\.academy|student\.refactory\.academy)(\.[a-z]+)?$/;
     if (!emailRegex.test(email)) {
         emailError.textContent = 'Only @refactory.academy emails are accepted';
         return;
