@@ -675,7 +675,12 @@ function showSharedResult(resultId) {
 }
 
 function showAdminLogin() {
-    document.getElementById('admin-login-modal').style.display = 'flex';
+    const q = document.getElementById('quiz-unavailable');
+    const a = document.getElementById('admin-login-card');
+    const f = document.getElementById('instructor-quiz-form');
+    if (q) q.style.display = 'none';
+    if (a) a.style.display = 'block';
+    if (f) f.style.display = 'none';
 }
 
 function adminLogin(e) {
@@ -685,11 +690,25 @@ function adminLogin(e) {
     const errorEl = document.getElementById('admin-error');
     
     if (password === ADMIN_PASSWORD && email === ADMIN_EMAIL) {
-        closeModal();
+        sessionStorage.setItem('instructorAccess', '1');
         showAdminDashboard();
     } else {
         errorEl.textContent = 'Invalid email or password';
     }
+}
+
+function openInstructorQuiz() {
+    if (sessionStorage.getItem('instructorAccess') !== '1') {
+        showAdminLogin();
+        return;
+    }
+    showPage('registration-page');
+    const q = document.getElementById('quiz-unavailable');
+    const a = document.getElementById('admin-login-card');
+    const f = document.getElementById('instructor-quiz-form');
+    if (q) q.style.display = 'none';
+    if (a) a.style.display = 'none';
+    if (f) f.style.display = 'block';
 }
 
 function showAdminDashboard() {
