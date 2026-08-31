@@ -317,8 +317,8 @@ function submitQuiz() {
 
 function doSubmitQuiz() {
     quizSubmitted = true;
-    clearInterval(timerInterval);
-    clearInterval(timeUsedInterval);
+    try { clearInterval(timerInterval); } catch(e) {}
+    try { clearInterval(timeUsedInterval); } catch(e) {}
     
     const lastQuestionTime = Math.floor((Date.now() - questionStartTime) / 1000);
     questionTimes[currentQuestion] = lastQuestionTime;
@@ -372,9 +372,16 @@ function detectAIUsage() {
 }
 
 function saveResult(result) {
-    const safeKey = (result.email + '_' + result.track).replace(/[.#$[\]]/g, '_');
-    const ref = db.ref('quizResults/' + safeKey);
-    ref.set(result);
+    try {
+        const safeKey = (result.email + '_' + result.track).replace(/[.#$[\]]/g, '_');
+        const ref = db.ref('quizResults/' + safeKey);
+        ref.set(result);
+    } catch(e) {
+        console.error('Firebase save failed:', e);
+        const results = JSON.parse(localStorage.getItem('quizResults') || '[]');
+        results.push(result);
+        localStorage.setItem('quizResults', JSON.stringify(results));
+    }
 }
 
 function displayResults(result) {
