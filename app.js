@@ -49,7 +49,25 @@ function init() {
         showAdminLogin();
     } else if (window.location.hash === '#test') {
         openTestQuiz();
+    } else if (window.location.hash === '#live') {
+        openLiveQuiz();
     }
+}
+
+function openLiveQuiz() {
+    showPage('registration-page');
+    const q = document.getElementById('quiz-unavailable');
+    const a = document.getElementById('admin-login-card');
+    const f = document.getElementById('instructor-quiz-form');
+    const heading = document.getElementById('instructor-quiz-heading');
+    const note = document.getElementById('instructor-quiz-note');
+    const dashBtn = document.getElementById('open-dashboard-btn');
+    if (q) q.style.display = 'none';
+    if (a) a.style.display = 'none';
+    if (f) f.style.display = 'block';
+    if (heading) heading.textContent = 'Application Security Quiz';
+    if (note) note.textContent = 'Complete the form below to start your quiz. You have 1 hour (60 questions).';
+    if (dashBtn) dashBtn.style.display = 'none';
 }
 
 function openTestQuiz() {
@@ -729,9 +747,15 @@ function openInstructorQuiz() {
     const q = document.getElementById('quiz-unavailable');
     const a = document.getElementById('admin-login-card');
     const f = document.getElementById('instructor-quiz-form');
+    const heading = document.getElementById('instructor-quiz-heading');
+    const note = document.getElementById('instructor-quiz-note');
+    const dashBtn = document.getElementById('open-dashboard-btn');
     if (q) q.style.display = 'none';
     if (a) a.style.display = 'none';
     if (f) f.style.display = 'block';
+    if (heading) heading.textContent = 'Instructor Quiz Access';
+    if (note) note.textContent = 'Students cannot see this. Use it to take or preview the quiz.';
+    if (dashBtn) dashBtn.style.display = '';
 }
 
 function showAdminDashboard() {
