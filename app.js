@@ -13,7 +13,6 @@ let questionStartTime = 0;
 let questionTimes = [];
 let timeUsedInterval;
 let pendingLeaveWarning = '';
-let leaveWarningShown = false;
 const ADMIN_PASSWORD = 'refactory2024';
 const ADMIN_EMAIL = 'gorretgolden@refactory.academy';
 
@@ -453,21 +452,14 @@ function enableAntiCheat() {
     
     document.addEventListener('visibilitychange', function() {
         if (document.hidden) {
-            if (!leaveWarningShown) {
-                pendingLeaveWarning = 'Tab switching is not allowed during the quiz.';
-            }
+            pendingLeaveWarning = 'Tab switching is not allowed during the quiz.';
         } else {
             flushLeaveWarning();
         }
     });
 
     window.addEventListener('blur', function() {
-        if (!document.hidden && !leaveWarningShown) {
-            leaveWarningShown = true;
-            showWarning('Switching windows is not allowed during the quiz.');
-        } else if (!leaveWarningShown) {
-            pendingLeaveWarning = 'Switching windows is not allowed during the quiz.';
-        }
+        pendingLeaveWarning = 'Switching windows is not allowed during the quiz.';
     });
 
     window.addEventListener('focus', flushLeaveWarning);
@@ -480,14 +472,10 @@ function enableAntiCheat() {
 }
 
 function flushLeaveWarning() {
-    if (pendingLeaveWarning && !document.hidden && !leaveWarningShown) {
+    if (pendingLeaveWarning && !document.hidden) {
         const message = pendingLeaveWarning;
         pendingLeaveWarning = '';
-        leaveWarningShown = true;
         showWarning(message);
-    } else if (!document.hidden) {
-        pendingLeaveWarning = '';
-        leaveWarningShown = false;
     }
 }
 
@@ -528,7 +516,6 @@ function closeModal() {
     document.getElementById('warning-modal').style.display = 'none';
     document.getElementById('admin-login-modal').style.display = 'none';
     pendingLeaveWarning = '';
-    leaveWarningShown = false;
 }
 
 function toggleProctorReport() {
